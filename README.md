@@ -1,9 +1,38 @@
 # Streamity.tv Xtream version
 
+![](https://streamity.tv/asset/img/git-min.png)
+
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/lKinderBueno/StreamityTV-Xtream)
+
+
 
 Streamity is an online webplayer. Watch IPTV Channels, movies TV series online on your browser,
 directly from your PC, phone or tablet, everywhere with no additional software required!
+
+### Features
+- Xtream Api support
+- Customizable name and logo
+- EPG Viewer
+- Support to epg xml api, epg api, epg database mode
+- EPG Shift in dashboard (each customer can shift epg)
+- TMDB Api Support
+- Save last movie and series watched
+- Save last episode watch
+- Automatic select next series episode
+- Automatic fix and improve movie and series name
+- Hide live/movie/series player
+- Hide EPG
+- Recatpcha 
+- Pic in picture player
+- Mobile friendly
+- Save credentials
+- Most of the code runs client side
+- Javascript pure
+
+### Other Pictures
+![](https://streamity.tv/asset/img/2-min.png)
+![](https://streamity.tv/asset/img/1-min.png)
+
 
 ### Installation
 1. Download the latest release: [Click here](https://github.com/lKinderBueno/StreamityTV-Xtream/releases)
@@ -11,6 +40,7 @@ directly from your PC, phone or tablet, everywhere with no additional software r
 3. Run installer.php (for example domain.com/installer.php)
 4. Compile all the fields and then press on Install
 5. Done
+
 
 ### Installer configuration
 Basic configuration:
