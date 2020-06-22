@@ -31,7 +31,7 @@ directly from your PC, phone or tablet, everywhere with no additional software r
 
 ### Other Pictures
 ![](https://streamity.tv/asset/img/2-min.png)
-![](https://streamity.tv/asset/img/11-min.png)
+![](https://streamity.tv/asset/img/1-min.png)
 
 
 ### Installation
