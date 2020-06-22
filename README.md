@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/lKinderBueno/StreamityTV-Xtream)
 
-### Official Streamity.tv website: [Click here](https://streamity.tv))
+### Official Streamity.tv website: [Click here](https://streamity.tv)
 
 Streamity is an online webplayer. Watch IPTV Channels, movies TV series online on your browser,
 directly from your PC, phone or tablet, everywhere with no additional software required!
