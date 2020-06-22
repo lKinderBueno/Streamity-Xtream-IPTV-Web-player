@@ -1,0 +1,68 @@
+.rippler {
+  position:relative;
+  overflow:hidden;
+  user-select:none;
+  cursor: pointer;
+  &:focus,
+  &:active {
+    outline:none;
+  }
+  &::-moz-focus-inner{
+    border: 0;
+  }
+}
+
+// button
+.rippler-button {
+  display: inline-block;
+}
+
+// image
+.rippler-img {
+  display:block;
+}
+
+.rippler-circle-mask {
+  border-radius:50%;
+  -webkit-mask: url(../svg/circle.svg) no-repeat;
+  -webkit-mask-size:100%;
+}
+
+.rippler-effect {
+  position:absolute;
+  opacity:.2;
+}
+
+// 
+// if addElement = 'svg'
+.rippler-svg {
+  .rippler-default & { fill:#fff; }
+  .rippler-inverse & { fill:#000; }
+
+  // bootstrap state colors
+  .rippler-bs-default & { fill:#000; }
+  .rippler-bs-inverse & { fill:#000; }
+  .rippler-bs-primary & { fill:#428bca; }
+  .rippler-bs-info &    { fill:#5bc0de; }
+  .rippler-bs-success & { fill:#5cb85c; }
+  .rippler-bs-warning & { fill:#ed9c28; }
+  .rippler-bs-danger &  { fill:#d2322d; }
+}
+
+// if addElement = 'div'
+.rippler-div {
+
+  border-radius: 50%;
+
+  .rippler-default & { background-color:#fff; }
+  .rippler-inverse & { background-color:#000; }
+
+  // bootstrap state colors
+  .rippler-bs-default & { background-color:#000; }
+  .rippler-bs-inverse & { background-color:#000; }
+  .rippler-bs-primary & { background-color:#428bca; }
+  .rippler-bs-info &    { background-color:#5bc0de; }
+  .rippler-bs-success & { background-color:#5cb85c; }
+  .rippler-bs-warning & { background-color:#ed9c28; }
+  .rippler-bs-danger &  { background-color:#d2322d; }
+}

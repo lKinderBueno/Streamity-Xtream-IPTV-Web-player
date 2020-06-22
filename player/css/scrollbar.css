@@ -1,0 +1,126 @@
+#scrollator_holder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+}
+
+.scrollator {
+    overflow-y: hidden !important;
+}
+
+.scrollator_lane_holder {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 15px;
+    background-color: transparent;
+    opacity: 0;
+    -webkit-transition: width 200ms, opacity 200ms;
+    -moz-transition: width 200ms, opacity 200ms;
+    -ms-transition: width 200ms, opacity 200ms;
+    -o-transition: width 200ms, opacity 200ms;
+    transition: width 200ms, opacity 200ms;
+}
+
+.scrollator_lane {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    bottom: 3px;
+    left: 3px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: rgba(64, 64, 64, 0);
+    -webkit-transition: background 200ms;
+    -moz-transition: background 200ms;
+    -ms-transition: background 200ms;
+    -o-transition: background 200ms;
+    transition: background 200ms;
+    z-index: 1049 !important;
+}
+
+.scrollator_lane_holder.scrollator_on_body {
+    position: fixed;
+    z-index: 999999999 !important;
+}
+
+.scrollator_lane_holder.hover,
+.scrollator_lane_holder:hover {
+    width: 16px;
+}
+
+.scrollator_lane_holder.hover>.scrollator_lane,
+.scrollator_lane_holder:hover>.scrollator_lane {
+    background-color: rgba(0, 0, 0, 0.50);
+}
+
+.scrollator_lane_holder>.scrollator_lane,
+.scrollator_lane_holder>.scrollator_lane {
+    background-color: rgba(0, 0, 0, 0.50);
+}
+
+.scrollator_handle_holder {
+    position: absolute;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0 -3px;
+    width: 15px;
+    background-color: transparent;
+    -webkit-transition: width 200ms;
+    -moz-transition: width 200ms;
+    -ms-transition: width 200ms;
+    -o-transition: width 200ms;
+    transition: width 200ms;
+}
+
+.scrollator_handle {
+    position: absolute;
+    top: 0;
+    right: 3px;
+    bottom: 0;
+    left: 3px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background-color: #727272;
+}
+
+.scrollator_lane_holder.hover .scrollator_handle_holder,
+.scrollator_lane_holder:hover .scrollator_handle_holder {
+    width: 16px;
+}
+
+/*---------Custom--------------*/
+
+.scrollator_lane_holder>.scrollator_lane,
+.scrollator_lane_holder>.scrollator_lane {
+    background-color: rgb(0, 0, 0);
+}
+
+.scrollator_lane {
+    top: 2px;
+    right: 0px;
+    bottom: -1px;
+    left: 7px;
+}
+
+.scrollator_handle_holder {
+    margin: 0;
+    left: -3px;
+}
+
+.scrollator_handle {
+    background-color: #375991;
+    border: solid 1px rgba(255, 255, 255, 0.12);
+    right: 5px;
+}

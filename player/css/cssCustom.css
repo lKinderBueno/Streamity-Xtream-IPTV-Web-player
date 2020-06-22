@@ -1,0 +1,12 @@
+.spanNumero{
+    font-weight: bold;width: 50px;text-align: center;padding-top: 8px;
+}
+
+.spanLogoCanale{
+	max-height: 30px;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}

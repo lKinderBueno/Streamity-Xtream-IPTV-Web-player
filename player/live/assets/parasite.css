@@ -1,0 +1,30 @@
+.event_parasite{
+    top: 0;
+    height: 100%;
+    display: flex;
+    padding: 2px;
+    overflow: hidden;
+    position: absolute;
+    transition: .25s filter linear;
+    align-items: center;
+    font-weight: 400;
+    line-height: 1.2rem;
+    border-right: 1px solid rgb(167, 167, 167);
+    background-color: white;
+}
+
+.c-show{
+    width:100%;
+}
+
+.loadMoreLessBtn{
+    position: relative;
+    z-index: 10000;
+}
+
+.loadLess{
+    top: 180px;
+}
+.loadMore{
+    bottom: 40px;
+}
