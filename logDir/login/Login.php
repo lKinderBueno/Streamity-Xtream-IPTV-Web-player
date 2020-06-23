@@ -105,19 +105,21 @@ if (isset($_POST["login"]))
         $_SESSION["user"] = true;
         $_SESSION["user"] = $user;
         $_SESSION["pass"] = $password;
-        
-        if($_POST['remember']==1){
-            setcookie("remember", true, time() + 720000, "/");
-            setcookie("user", $user, time() + 720000, "/");
-            setcookie("pass", $password, time() + 720000, "/");
-        }else setcookie("remember", false, time() + 720000, "/");
-        
 
         if (!$_COOKIE['shift']) setcookie("shift", 0, time() + 720000);
 
         if (!$_COOKIE['h24']) setcookie("h24", 24, time() + 720000);
 
         if (!$epgDb) if (!$_COOKIE['epg']) setcookie("epg", false, time() + 720000);
+        
+        if($_POST['remember']==1){
+            setcookie("remember", true, time() + 720000, "/");
+            setcookie("user", $user, time() + 720000, "/");
+            setcookie("pass", $password, time() + 720000, "/");
+            $params = session_get_cookie_params();
+            setcookie(session_name(), $_COOKIE[session_name()], time() + 60*60*24*30, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
+        }else setcookie("remember", false, time() + 720000, "/");
+        
 
         header("Location: dashboard.php");
 
