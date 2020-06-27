@@ -1,4 +1,4 @@
-# Streamity.tv Xtream version
+# Streamity.tv Xtream version (by IPTVEditor.com dev)
 
 ![](https://streamity.tv/asset/img/git-min.png)
 
