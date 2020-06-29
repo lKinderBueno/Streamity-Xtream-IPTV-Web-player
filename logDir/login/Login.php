@@ -41,23 +41,6 @@ if (isset($_POST["login"]))
     {
         return;
     }
-
-    if (!preg_match("/^[0-9a-zA-Z������������������������_]+$/", $user) && !preg_match("/^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$/", $user))
-    {
-        $msg_login = "Username or password not valid";
-        return;
-    }
-
-    if ((strpos($user, ' ') !== false) || strpos($user, '-') !== false || strpos($user, "'") !== false || strpos($user, '"') !== false)
-    {
-        $msg_login = "Username or password not valid";
-        return;
-    }
-    if ((strpos($password, ' ') !== false) || strpos($password, "'") !== false || strpos($password, '"') !== false)
-    {
-        $msg_login = "Username or password not valid";
-        return;
-    }
     
     if($recaptchaPrivate)
     if (isset($_POST['g-recaptcha-response'])) {
