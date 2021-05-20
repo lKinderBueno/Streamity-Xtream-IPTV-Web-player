@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="728px" height="106px" viewBox="0 0 728 106" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>placeholder-channel-events_border</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="117" height="106" rx="4"></rect>
+        <rect id="path-3" x="0" y="0" width="243" height="106" rx="4"></rect>
+        <rect id="path-5" x="0" y="0" width="154" height="106" rx="4"></rect>
+        <rect id="path-7" x="0" y="0" width="198" height="106" rx="4"></rect>
+    </defs>
+    <g id="placeholder-channel-events_border" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Components/Desktop/Grid/Item-linear-off/Normal" transform="translate(2.000000, 0.000000)">
+            <g id="Item-linear-off">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Rectangle-4" fill="#EFEFEF" xlink:href="#path-1"></use>
+            </g>
+            <rect id="Rectangle" fill="#E5E5E5" fill-rule="nonzero" x="24" y="16" width="69" height="18"></rect>
+            <rect id="Rectangle-Copy" fill="#E5E5E5" fill-rule="nonzero" x="24" y="40" width="69" height="12"></rect>
+            <rect id="Rectangle-Copy-2" fill="#E5E5E5" fill-rule="nonzero" x="24" y="78" width="45" height="12"></rect>
+        </g>
+        <g id="Components/Desktop/Grid/Item-linear-off/Normal-Copy" transform="translate(123.000000, 0.000000)">
+            <g id="Item-linear-off">
+                <mask id="mask-4" fill="white">
+                    <use xlink:href="#path-3"></use>
+                </mask>
+                <use id="Rectangle-4" fill="#EFEFEF" xlink:href="#path-3"></use>
+            </g>
+            <rect id="Rectangle" fill="#E5E5E5" fill-rule="nonzero" x="23.9967427" y="16" width="140.892508" height="18"></rect>
+            <rect id="Rectangle-Copy" fill="#E5E5E5" fill-rule="nonzero" x="23.9967427" y="42" width="106.856678" height="14"></rect>
+            <rect id="Rectangle-Copy-2" fill="#E5E5E5" fill-rule="nonzero" x="23.9967427" y="76" width="70.4462541" height="14"></rect>
+        </g>
+        <g id="Components/Desktop/Grid/Item-linear-off/Normal-Copy-2" transform="translate(370.000000, 0.000000)">
+            <g id="Item-linear-off">
+                <mask id="mask-6" fill="white">
+                    <use xlink:href="#path-5"></use>
+                </mask>
+                <use id="Rectangle-4" fill="#EFEFEF" xlink:href="#path-5"></use>
+            </g>
+            <rect id="Rectangle" fill="#E5E5E5" fill-rule="nonzero" x="24" y="16" width="106" height="18"></rect>
+            <rect id="Rectangle-Copy" fill="#E5E5E5" fill-rule="nonzero" x="24" y="42" width="83" height="14"></rect>
+            <rect id="Rectangle-Copy-2" fill="#E5E5E5" fill-rule="nonzero" x="24" y="76" width="53" height="14"></rect>
+        </g>
+        <g id="Components/Desktop/Grid/Item-linear-off/Normal-Copy-3" transform="translate(528.000000, 0.000000)">
+            <g id="Item-linear-off">
+                <mask id="mask-8" fill="white">
+                    <use xlink:href="#path-7"></use>
+                </mask>
+                <use id="Rectangle-4" fill="#EFEFEF" xlink:href="#path-7"></use>
+            </g>
+            <rect id="Rectangle" fill="#E5E5E5" fill-rule="nonzero" x="24" y="16" width="150" height="18"></rect>
+            <rect id="Rectangle-Copy" fill="#E5E5E5" fill-rule="nonzero" x="24" y="42" width="87.9478827" height="14"></rect>
+            <rect id="Rectangle-Copy-2" fill="#E5E5E5" fill-rule="nonzero" x="24" y="76" width="57.980456" height="14"></rect>
+        </g>
+    </g>
+</svg>

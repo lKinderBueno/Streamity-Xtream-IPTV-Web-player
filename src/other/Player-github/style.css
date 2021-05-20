@@ -1,0 +1,32 @@
+.progress-netflix {
+    -webkit-appearance: none;
+    width: 100%;
+    height: .3rem;
+    outline: none;
+    opacity: 0.7;
+    cursor:pointer; 
+    transition: height 0.2s ease, opacity .2s ease;
+  }
+  
+  .progress-netflix:hover {
+    opacity: 1;
+    height: .7rem;
+  }
+  
+  .progress-netflix::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--second-color)!important;
+    cursor: pointer;
+  }
+  
+  .progress-netflix::-moz-range-thumb {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--second-color)!important;
+    cursor: pointer;
+  }

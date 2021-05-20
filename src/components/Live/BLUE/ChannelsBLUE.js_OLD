@@ -1,0 +1,87 @@
+import styled from "styled-components"
+import {useSelector, useDispatch} from "react-redux"
+import Channel from "../Channel"
+import {setPlaylingChannel} from "../../../actions/playingChannel"
+import {setFullScreen} from "../../../actions/fullScreen"
+import {setVolume} from "../../../actions/volume"
+import { FixedSizeList as List } from "react-window";
+import {convertRemToPixels,convertVhToPixels} from "../../../other/convert-rem"
+import {useEffect} from 'react'
+
+const ChannelsList = styled.ul`
+height: calc(95vh - 3rem);
+padding: .8rem .6rem;
+background-color: #162f65;
+border-radius: 5px;
+list-style-type: none;
+
+&:focus{
+    outline-width: 0px;
+}
+`
+
+const Channels = () => {
+    const channelsPlaylist = useSelector(state => state.playlist);
+    const isFullScreen = useSelector(state => state.fullScreen);
+    const playingChannel = useSelector(state => state.playingCh);
+
+    const dispatch = useDispatch()
+
+    let timeout;
+    const stopRemote = () =>{
+      clearTimeout(timeout);
+    }
+  
+    const moveFocus = (event) => {
+        remoteController(event);
+        timeout = setTimeout(moveFocus, 500, event);
+    }
+
+    const remoteController = (event) => {
+      const active = document.activeElement;
+      if (event.keyCode === 40 && active.nextSibling) {
+        active.nextSibling.focus();
+      } else if (event.keyCode === 38 && active.previousSibling) {
+        active.previousSibling.focus();
+      } else if (event.keyCode === 107 || event.keyCode === 109) {
+        dispatch(setVolume(event.keyCode === 107))
+      } else if(event.keyCode === 27 || event.keyCode === 8){  //BACK
+
+      } else if(event.keyCode === 39){ //RIGHT
+
+      }
+      clearTimeout(timeout);
+    }
+
+    useEffect(() => {
+      document.getElementById("selectedCh") && (document.getElementById("selectedCh").focus())
+    }, [isFullScreen]);
+
+    let interval;
+    const Row = ({ index, style }) => (
+        <Channel key={channelsPlaylist[index].stream_id} Name={channelsPlaylist[index].name} Epg={channelsPlaylist[index].epg_channel_id} id={channelsPlaylist[index].stream_id} Image={channelsPlaylist[index].stream_icon} Number={channelsPlaylist[index].num} selectEvent={() => {
+          dispatch(setPlaylingChannel(channelsPlaylist[index]))
+          interval = setInterval(() => {document.getElementById("selectedCh").focus();clearInterval(interval)}, 200)
+        }}  fullScreenEvent={() => dispatch(setFullScreen(true))} onKeyDown={moveFocus} onKeyUp={stopRemote} virtualScrollStyle={style} selected={playingChannel.stream_id === channelsPlaylist[index].stream_id} />
+    );
+
+    return (
+        <ChannelsList tabIndex={0} autoFocus >
+            <List
+              height={convertVhToPixels("95vh")-convertRemToPixels(5)}
+              itemCount={channelsPlaylist.length}
+              itemSize={convertRemToPixels(5)}
+              style={{overflowY:"auto", maxHeight:"calc(95vh - 3rem)"}}
+              useIsScrolling={true}
+            >
+              {Row}
+            </List>
+
+          
+        </ChannelsList>
+    )
+}
+
+
+
+export default Channels

@@ -1,4 +1,4 @@
-# Streamity.tv Xtream version (by IPTVEditor.com dev)
+# Streamity.tv v2 Xtream version (by IPTVEditor.com dev)
 
 ![](https://streamity.tv/asset/img/git-min.png)
 
@@ -16,23 +16,18 @@ directly from your PC, phone or tablet, everywhere with no additional software r
 
 ### Features
 - Xtream Api support
+- Modern design and smooth animations
 - Customizable name and logo
 - EPG Viewer
-- Support to epg xml api, epg api, epg database mode
-- EPG Shift in dashboard (each customer can shift epg)
-- TMDB Api Support
+- Support to epg
 - Save last movie and series watched
 - Save last episode watch
+- Support to favorites
 - Automatic select next series episode
 - Automatic fix and improve movie and series name
-- Hide live/movie/series player
-- Hide EPG
-- Recatpcha 
 - Pic in picture player
-- Mobile friendly
-- Save credentials
 - Most of the code runs client side
-- Javascript pure
+- React js
 
 ### Other Pictures
 ![](https://streamity.tv/asset/img/2-min.png)
@@ -41,46 +36,13 @@ directly from your PC, phone or tablet, everywhere with no additional software r
 
 ### Installation
 1. Download the latest release: [Click here](https://github.com/lKinderBueno/Streamity-Xtream-IPTV-Web-player/releases)
-2. Extract everything in your domain folder (for example public_html)
-3. Run installer.php (for example domain.com/installer.php)
-4. Compile all the fields and then press on Install
-5. Done
+2. Open with a text editor (for example notepad++) config.js and complete empty fields ( window.dns). More instructions are available inside the file.
+3. Open with a text editor (for example notepad++) config.php and write your mysql database info (database url, database name, username, password) and epg xml url. (if you don't use epg you can skip part 2 and 3)
+4. Import "sql_table.sql" in your mysql database (if you are using phpMyAdmin click on "import" -> select the sql_table.sql and click on execute)
 
+5. [OPTIONAL] Open with a text editor (for example notepad++) config.css if you want to change main color and background one.
+6. [OPTIONAL] Change favicon.ico and img > banner_w.png
 
-### Installer configuration
-Basic configuration:
-- IPTV Name: Your IPTV Service name (ex. Streamity)
-- Upload IPTV Logo: Your IPTV Logo
-- Upload IPTV Icon: Your IPTV Icon
-- Replace index page with dashboard: your index page will be replaced with the dashboard page
+7. Copy and paste all the files in the root folder (don't use folders!)
 
-IPTV configuration:
-- IPTV Provider Host: your iptv provider url. It is required to login and fetch user data
-
-EPG configuration:
-- XML + Database (reccomended for 20MB+ epg file): Every 4 hours Streamity.tv player will convert your epg xml file into an SQL database. This settings is the most reccommended if your epg xml file is over 20MB and will offer the best experience to your customer.
-- API Epg: The epg will loaded every time a customer will access to "live player". The epg url will be generated using xtream api.
-- API Epg - Low Ram: If your iptv provider epg is heavy this will increase the player loading times. 
-Enabling this mode every time an user click on a channel, the relative epg will be downloaded. 
-Server loading times will be reduced a lot, but the EPG viewer will be disabled because totally incompatible with this mode.
-- Disable Epg
-
-TMDb Api (optional)
-- Streamity.tv syncs missing Vods and Series info (as cover, description, episode series title etc etc) with TMDb Api. VODs and Series info will be searched first from IPTV provider server and then from TMDb.
-
-reCAPTCHA v2 (optional)
-- reCAPTCHA is a free security service that protects your websites from spam and abuse. It will be integrated in the login page. 
-IMPORTANT: Is advised to use an SSL protocol (https) in the login page to avoid issue with reCAPTCHA
-
-Disable components
-- Disable Live channels
-- Disable Movie
-- Disable Series
-
-Advanced configuration (optional)
-- When a customer login for the first time on Streamity.tv player on a new browser, the server will calculate the number of channels/vods/series avaible on the account.
-This procedure will delay the login of 30-40 seconds for IPTV lists with a lot of channels.
-Checking this box will disable this feature.
-Number of channels/vod/series will be continue to be calculated during the opening of each player.
-(for example: Live channels player will calculate only number of live channels)
-
+To avoid wasting server resources, epg update will be triggered when an user login and database has less than 12 hours of programmes.

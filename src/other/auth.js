@@ -1,0 +1,109 @@
+import React, { useState, useContext, createContext } from "react";
+import {Route,Redirect} from "react-router-dom"
+import * as axios from "./axios";
+import {setInfo} from "./user_info"
+import Cookies from 'js-cookie'
+import {initDb} from "./local-db"
+
+const authContext = createContext();
+
+export function ProvideAuth({ children }) {
+  const auth = useProvideAuth();
+  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+}
+
+export const useAuth = () => {
+  return useContext(authContext);
+};
+
+export function useProvideAuth() {
+  const [auth, setAuth] = useState(0);
+
+  const signin = (dns, username, password, successFallback, failFallback) => {
+    if(dns)
+      axios.setDns(dns);
+      
+    axios.post("player_api.php",{
+      username: username.trim(),
+      password: password.trim(),
+    }).then(result => {
+      if(result){
+        if(result.data)
+          result = result.data
+        else if(result.response && result.response.data)
+          result = result.response.data
+      }
+      if(result && result.user_info){
+        if(result.iptveditor)
+          axios.setDns("http://api.iptveditor.com/webplayer");
+        if(result.user_info.auth === 0)
+          failFallback("No account found","No account found with inserted credentials");
+        else if(result.user_info.auth){
+          if(result.user_info.status !== "Active")
+            failFallback("Account expired",`Account expired on ${new Date(parseInt(result.user_info.exp_date+"000")).toGMTString()}`);
+          else {
+            setAuth(1);
+            setInfo(result.user_info);
+            initDb();
+            successFallback && (successFallback());
+          }
+        }
+      }else if(result.title){
+        failFallback && (failFallback(result.title,result.body));
+      }else{
+        failFallback && (failFallback("Server error","Server didn't generated any reply. Please try later"));
+      }
+    }).catch(err => {
+      console.log(err);
+      failFallback && (failFallback("Server error","Server didn't generated any reply. Please try later"));
+    })
+  };
+
+  const authLogin = (fallback) =>{
+
+    const dns = Cookies.get("dns");
+    const username = Cookies.get("username");
+    const password = Cookies.get("password");
+
+    if(username && password)
+      signin(dns,username,password,fallback);      
+  }
+
+  const signout = (action) => {
+    setAuth(null);
+    action && (action());
+  };
+
+  const isAuth = () => {
+    return !!auth;
+  }
+
+  return {
+    signin,
+    signout,
+    isAuth,
+    authLogin
+  };
+}
+
+
+export function PrivateRoute({ children, ...rest }) {
+  let auth = useAuth();
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        auth.isAuth() ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login/",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}

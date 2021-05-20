@@ -1,0 +1,114 @@
+@media (max-width: 1000px) {
+  /*MAG*/
+  html {
+    font-size: 62.5%;
+  }
+}
+
+html {
+  font-family: "Proxima Nova", sans-serif;
+  overflow: hidden;
+}
+
+* {
+  scrollbar-color: #aaa transparent;
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  background-color: #aaa;
+  border: 2px solid transparent;
+  min-height: 50px;
+  border-radius: 6px;
+}
+
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff0;
+  max-width: 100vw;
+}
+
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.alert-enter-active {
+  opacity: 0;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.alert-exit {
+  opacity: 0;
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+
+.isPlayingChannel {
+  color: #fff;
+}
+
+.isPlayingChannel:hover {
+  color: #000;
+  cursor: pointer;
+}
+
+.isPlayingChannel:hover * {
+  color: #000;
+  cursor: pointer;
+}
+
+#selectedCh * {
+  color: white;
+}
+
+.hg-keyMarker{
+  box-shadow: 0 0 0 2px var(--second-color) !important;
+}
+
+
+
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.alert-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.alert-exit {
+  opacity: 1;
+}
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 300ms, transform 300ms;
+}
+
+
+.center-container{
+  display: inline-flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}

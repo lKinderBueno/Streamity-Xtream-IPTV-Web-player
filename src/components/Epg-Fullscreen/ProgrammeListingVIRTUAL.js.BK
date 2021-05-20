@@ -1,0 +1,59 @@
+import React from 'react'
+import styled from 'styled-components'
+import {useSelector, useDispatch} from "react-redux"
+import Programme from "./Programme"
+import { VariableSizeList  as List } from "react-window";
+import {convertRemToPixels} from "../../other/convert-rem"
+
+const Container = styled.ul`
+width: calc(5950px);
+display: block;
+position: relative;
+background-image: url(/img/placeholder-channel-events_border.svg);
+background-repeat: repeat-x;
+background-size: contain;
+height: 6.625rem;
+list-style-type:none;
+min-width: 357rem;
+max-width: 357rem;
+
+&:before{
+    content: "";
+    background-image: url(/img/placeholder-channel-events_border.svg);
+    background-repeat: repeat-x;
+    width: 500px;
+    height: 100%;
+    position: absolute;
+    left: -504px;
+}
+`
+
+const ProgrammeListing = ({epgId, today, tomorrow, moveFocus}) => {
+    const epg = useSelector(state => state.epgList);
+    const epgListing = epg.filter(epg=>epg.id === epgId && epg.start > today && epg.start <tomorrow);
+   
+    const getItemSize = (index) => {
+        let val = convertRemToPixels(((epgListing[index].end-epgListing[index].start)/3600000)*15)
+        return val;
+    }
+
+    const Row = ({ index, style }) => (
+        <Programme key={epgId+epgListing[index].start} start={epgListing[index].start} stop={epgListing[index].end} title={epgListing[index].title} description={epgListing[index].description} dayTime={today} style={style}/>
+    );
+    
+    return (
+        <Container onKeyDown={moveFocus} autoFocus>
+            <List
+              width={convertRemToPixels(370)}
+              height={convertRemToPixels(6.625)}
+              itemCount={epgListing.length}
+              itemSize={getItemSize}
+              layout="horizontal"
+            >
+              {Row}
+            </List>
+        </Container>
+    )
+}
+
+export default ProgrammeListing

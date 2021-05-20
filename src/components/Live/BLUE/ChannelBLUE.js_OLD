@@ -1,0 +1,110 @@
+import styled from "styled-components"
+import ChannelEpg from "../ChannelEpg"
+import {useRef} from 'react'
+
+const Li = styled.li`
+/*border-radius: .4rem;*/
+vertical-align: middle;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+
+&:focus{
+    outline-width: 0px;
+    background-color: #203d79;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+}
+
+&:hover{
+    background-color: #203d79;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+}
+
+& + & {
+    margin-top: 10px;
+    border-top: #203d79 1px solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+`
+
+const ChannelNumber = styled.div`
+align-self: center;
+text-align: left;
+padding: 0;
+padding-left: 1rem;
+
+& > div{
+    font-size: 1rem !important;
+}
+`
+const HeaderChannel = styled.div`
+padding-bottom: .4rem!important;
+line-height: 1!important;
+font-size: 1rem;
+font-weight: 700;
+`
+const Logo = styled.div`
+background: #203d79;
+padding: .1rem .1rem;
+border-radius: .2rem;
+color: #fff;
+text-align: center;
+width: 100%;
+font-weight: bold;
+min-height: 2.4rem;
+max-height: 2.4rem;
+
+&>img{
+    max-height: 2.2rem;
+    height: auto;
+    width: auto;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+`
+
+const ChannelContainer = styled.div`
+/*padding-bottom: .2rem;
+padding-top: .2rem;*/
+`
+
+const Channel = ({ Name, Image, Epg, Number, id, selected, selectEvent, fullScreenEvent, keydown, virtualScrollStyle }) => {
+    const inputEl = useRef(null);
+
+    const style = {}
+    if(selected){
+        style.backgroundColor = "#203d79";
+        style.transition = "all .3s ease-in-out";
+        style.cursor = "pointer";
+        style.color = "#e9d454!important"
+    }
+
+
+    
+    return (
+        <Li tabIndex={-1} value={id} ref={inputEl} onClick={selected ? fullScreenEvent : selectEvent} onKeyDown={keydown} style={virtualScrollStyle} id={selected ? "selectedCh" : ""}> 
+            <ChannelContainer className="container" style={{style}}>
+                <div className="row">
+                    <ChannelNumber className="col-sm-1 order-1" style={{color: selected ? "#e9d454" : "#598ede"} }>
+                        <HeaderChannel>
+                            <span>{Number}</span>
+                        </HeaderChannel>
+                    </ChannelNumber>
+                    <div className="col-md-2 col-sm-3 order-2">
+                        <Logo>
+                            <img src={Image} loading={"lazy"} /*onError={()=>{this.onerror=null;this.src='../images/nologo.png?1'}} */ align="middle" alt="" />
+                        </Logo>
+                    </div>
+                    <ChannelEpg Name={Name} Epg={Epg} chId={id} isPlaying={selected}/>
+                </div>
+            </ChannelContainer>
+        </Li>
+        
+    )
+}
+
+export default Channel

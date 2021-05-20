@@ -1,0 +1,87 @@
+import styled from "styled-components"
+import {useSelector} from "react-redux"
+import { useState, useEffect } from 'react'
+import {getEpg} from "../../other/getEpg"
+import ChannelEpgBar from "./ChannelEpgBar"
+const dateFormat = require("dateformat");
+const HeaderChannel = styled.div`
+padding-bottom: .4rem!important;
+line-height: 1!important;
+font-size: 0.65rem;
+color: #598ede;
+font-weight: 700;
+`
+
+const BodyChannel = styled.div`
+text-transform: capitalize;
+color: #fff;
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+`
+const Title = styled.label`
+font-size: 1rem;
+max-width: 100%;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;`
+
+const TitleEpg = styled.label`
+padding-left: 2%;
+font-size: 0.9rem;
+font-weight: 100;
+max-width: 70%;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;`
+
+const PlayingButton = styled.i`
+font-size: 2.2rem;
+color: #e9d454;
+`
+
+const ChannelEpg = ({chId,Name,Epg,isPlaying}) => {
+    const epg = useSelector(state => state.epgList);
+    const h24Format = useSelector(state => state.h24);
+    const timer = useSelector(state => state.timer60);
+    const [epgNow, setEpgNow] = useState(getEpg(epg,Epg));
+
+    let tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate()+1)
+    tomorrow.setHours(0)
+    tomorrow.setMinutes(0)
+    
+    useEffect(() => {
+        const newEpg = getEpg(epg,Epg);
+        if(epgNow.start && epgNow.start !== newEpg.start){
+            setEpgNow({...newEpg});
+        }
+    }, [timer,epgNow.start,epg,Epg]);
+
+    return (
+        <>
+            <div className="col-md-8 col-sm-6 col-xs-5 order-3">
+                <HeaderChannel className="lh-1" style={{color: isPlaying && "#e9d454"} }>
+                    <span>{epgNow.start && `${dateFormat(new Date(epgNow.start), h24Format)} - ${dateFormat(new Date(epgNow.end), h24Format)}`}</span>
+                </HeaderChannel>
+                <BodyChannel className="lh-sm" style={{color: isPlaying && "#e9d454"} }>
+                    <Title><b>{Name}</b></Title>
+                    <TitleEpg>{epgNow.title}</TitleEpg>
+                </BodyChannel>
+            </div>
+            <div className="col-md-1 text-center order-4" style={{width:"1rem"}}>
+                {isPlaying && (<PlayingButton className="far fa-play-circle"></PlayingButton>)}
+            </div>
+            <div className="col-12 order-5">
+                {epgNow.start ?
+                (<ChannelEpgBar key={chId+ " " +epgNow.start} start={epgNow.start} stop={epgNow.end} isPlaying={isPlaying} />)
+                :
+                <ChannelEpgBar />
+                }
+            </div>
+        </>
+    )
+}
+
+export default ChannelEpg
+

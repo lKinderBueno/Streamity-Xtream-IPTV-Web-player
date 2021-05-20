@@ -1,0 +1,152 @@
+.netflix-text {
+	text-transform: uppercase;
+}
+
+.lateral-focus, .lateral-focus:focus{
+	background-color: transparent;
+    border: none;
+	outline: none;
+
+}
+
+.netflix-nav-btn {
+	border: 0;
+	background: transparent;
+	cursor: pointer;
+	font-size: 1.5rem;
+}
+
+
+.netflix-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	transform: translateX(-100%);
+	transition: transform .3s ease-in-out; 
+    z-index: 1000000000;
+}
+
+.netflix-nav.visible {
+	transform: translateX(0);
+}
+
+.netflix-nav-black {
+	background-color: var(--first-color);
+	width: 60%;
+	max-width: 35rem;
+	min-width: 20rem;
+	transition-delay: .4s;
+}
+
+.netflix-nav-black.visible {
+	transition-delay: 0s;
+}
+
+.netflix-nav-red {
+	background-color: var(--second-color);
+	transition-delay: .2s; 
+	width: 95%;
+}
+
+.netflix-nav-red.visible {
+	transition-delay: .2s;
+}
+
+.netflix-nav-white {
+	background-color: #fff;
+	padding: 3rem;
+	position: relative;
+	transition-delay: 0s; 
+	width: 95%;
+}
+
+.netflix-nav-white.visible {
+	transition-delay: .4s;
+}
+
+.netflix-close-btn {
+	outline-width: 0px;	
+	opacity: 0.3;
+	position: absolute;
+	top: 3rem;
+	right: 2.5rem;
+	transition: color 0.5s ease;
+}
+
+.netflix-close-btn:focus, .netflix-close-btn:hover, .netflix-close-btn:hover > i {
+	color: var(--second-color);
+}
+
+.netflix-logo {
+	width: 10rem;
+}
+
+.netflix-list {
+	list-style-type: none;
+	padding: 0;
+}
+
+.netflix-list li {
+	margin: 1.5rem 0;
+}
+
+.netflix-list li button {
+	color: var(--first-color);
+	font-size: 1rem;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: color 0.2s ease;
+}
+
+.netflix-list li button:hover, .netflix-list li button:focus{
+	color: var(--second-color);
+}
+
+
+.netflix-list ul {
+	list-style-type: none;
+	padding-left: 1.4rem;
+}
+
+
+
+.floating-btn {
+	border-radius: 26.1rem;
+	background-color: #001F61;
+	border: .1rem solid #001F61;
+	box-shadow: 0 1.3rem 1.5rem -1.6rem #03153B;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1.3rem;
+	line-height: 1.4rem;
+	padding: 1.2rem 1.4rem;
+	position: fixed;
+	bottom: 1.4rem;
+	right: 1.4rem;
+	z-index: 999;
+}
+
+.floating-btn:hover {
+	background-color: #ffffff;
+	color: #001F61;
+}
+
+.floating-btn:focus {
+	outline: none;
+}
+
+@media screen and (max-width: 44rem) {
+
+	.social-panel-container.visible {
+		transform: translateX(0);
+	}
+	
+	.floating-btn {
+		right: 1rem;
+	}
+}
+
+* {
+	box-sizing: border-box;
+}

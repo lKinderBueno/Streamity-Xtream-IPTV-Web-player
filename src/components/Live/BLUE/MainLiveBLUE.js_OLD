@@ -1,0 +1,36 @@
+import React from 'react'
+import Player from "../Player"
+import EpgSummary from "../EpgListing"
+import Channels from "../Channels"
+import styled from "styled-components"
+import {useSelector} from "react-redux"
+
+
+const Main = styled.div`
+padding: 3vh 1vw;
+background-color: /*#171c22;*/ #203d79;
+height: calc(100vh - 3rem);
+`
+
+
+const MainLive = () => {
+    const playingChannel = useSelector(state => state.playingCh);
+    const fullScreen = useSelector(state => state.fullScreen);
+
+    return (
+        <Main  style={{display : fullScreen ? "none" : ""}}>
+            <div className="row">
+                <div className="col-5" style={{paddingLeft:"2rem", maxHeight : "calc(100vh - 4rem)"}}>
+                    <h5 id="title" style={{color:"white"}}>{playingChannel.name}</h5>
+                    <Player/>
+                    <EpgSummary epgId={playingChannel.epg_channel_id}/>
+                </div>
+                <div className="col-7" style={{paddingLeft:0}}>
+                    <Channels/>
+                </div>
+            </div>
+        </Main>
+    )
+}
+
+export default MainLive
