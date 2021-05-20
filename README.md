@@ -43,6 +43,6 @@ directly from your PC, phone or tablet, everywhere with no additional software r
 5. [OPTIONAL] Open with a text editor (for example notepad++) config.css if you want to change main color and background one.
 6. [OPTIONAL] Change favicon.ico and img > banner_w.png
 
-7. Copy and paste all the files in the root folder (don't use folders!)
+7. Copy and paste all the files in your server. Use the root folder, like http://domain.com/ (don't use folders like http://domain.com/player/ !)
 
 To avoid wasting server resources, epg update will be triggered when an user login and database has less than 12 hours of programmes.
