@@ -8,12 +8,12 @@ window.playername = "IPTVEditor Web Player";
 //Iptv provider dns url (for example "http://domain.com:80")
 if(window.isDebug){
   window.dns =  "http://localhost:3000/webplayer";
-}else window.dns = "http://api.iptveditor.com/webplayer";
+}else window.dns = "https://api.iptveditor.com/webplayer";
 
 /*----- CORS -----*/
 /*/ Change on false if iptv provider has the Access-Control-Allow-Origin set on "*" or allows your player domain.
 Leave on "true" in the other case. Player will use "proxy.php" file to manage the requests.  */
-window.cors = true; //false
+window.cors = false; //false
 
 /*---- HTTPS -----*/
 /* If streams are using an ssl protol change this box on true.*/

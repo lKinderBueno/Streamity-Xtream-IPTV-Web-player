@@ -35,7 +35,7 @@ export function useProvideAuth() {
       }
       if(result && result.user_info){
         if(result.iptveditor)
-          axios.setDns("http://api.iptveditor.com/webplayer");
+          axios.setDns("https://api.iptveditor.com/webplayer");
         if(result.user_info.auth === 0)
           failFallback("No account found","No account found with inserted credentials");
         else if(result.user_info.auth){
@@ -43,19 +43,21 @@ export function useProvideAuth() {
             failFallback("Account expired",`Account expired on ${new Date(parseInt(result.user_info.exp_date+"000")).toGMTString()}`);
           else {
             setAuth(1);
+            successFallback && (successFallback());
             setInfo(result.user_info);
             initDb();
-            successFallback && (successFallback());
           }
         }
       }else if(result.title){
         failFallback && (failFallback(result.title,result.body));
       }else{
-        failFallback && (failFallback("Server error","Server didn't generated any reply. Please try later"));
+        failFallback && (failFallback("Server error","Server didn't generated any reply. Please try later #2"));
       }
     }).catch(err => {
       console.log(err);
-      failFallback && (failFallback("Server error","Server didn't generated any reply. Please try later"));
+      if(err.response.data && err.response.data.user_info && err.response.data.user_info.auth === 0)
+        failFallback("No account found","No account found with inserted credentials");
+      else failFallback && (failFallback("Server error","Server didn't generated any reply. Please try later #1"));
     })
   };
 

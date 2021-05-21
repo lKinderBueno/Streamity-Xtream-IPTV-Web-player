@@ -121,6 +121,10 @@ const Popup = () => {
     const [style, setStyle] = useState({opacity:0})
     
     useEffect(()=>{
+        ch && (setStyle({opacity:0}))
+    },[ch])
+
+    useEffect(()=>{
         if(Info && playlist){
             setCh(playlist.find(x=>parseInt(x.stream_id) === parseInt(Info.chId)))
             setInterval(()=>setStyle({opacity:1},50));
@@ -151,7 +155,7 @@ const Popup = () => {
                                 <Button onClick = {
                                     () => {
                                         setStyle({opacity:0})
-                                        setInterval(()=>{
+                                        setTimeout(()=>{
                                             dispatch(setEpgPopup());
                                             focusElement.getFocus() && (focusElement.getFocus().focus());
                                         },50)

@@ -48,6 +48,7 @@ export function createEpisode(url,id,season, episode_number,duration_sec = 0, du
       "title": title === "" ? `Episode ${episode_number}` : title,
       "container_extension": "mp4",
       "url":url,
+      "id":id,
       "overview": overview,
       "info": {
          "air_date": airdate,

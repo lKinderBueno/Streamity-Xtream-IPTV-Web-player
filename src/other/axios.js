@@ -16,7 +16,7 @@ export async function post(url, params = {}, local) {
     if(!dns)
         return null;
 
-    if(local === true && !window.location.origin.includes("iptveditor.com")){
+    if(local === true && !window.location.origin.match(/iptveditor\.com|localhost/)){
         return Axios.post(url, qs.stringify(params)).catch(err=> err) 
     }
 
@@ -57,7 +57,7 @@ export function setDns(data) {
     else if(window.location.protocol === 'https:' && !data.includes("https"))
         data = data.replace("http","https");
     
-    isIptveditor = !!data.match(/iptveditor\.com|localhost\:3000|192\.168\.178\.71\:3000/)
+    isIptveditor = !!data.match(/iptveditor\.com|localhost|192\.168\.178\.71\:3000/)
 
     if(isIptveditor && window.isDebug !== 1)
         data = "https://api.iptveditor.com/webplayer";

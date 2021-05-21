@@ -207,12 +207,7 @@ const MoreInfo = ({style}) => {
     useEffect(()=>{
         if(!stream)
             return;
-
-        if(stream.url)
-            setUrl(stream.url)
-        else{
-            playingMode === "movie" && (setUrl(generateUrl("movie",stream.stream_id,stream.container_extension)))
-        }
+        playingMode === "movie" && (setUrl(generateUrl("movie",stream.stream_id,stream.container_extension)))
     },[stream])
 
     const setFavoriteGlob = (event) =>{

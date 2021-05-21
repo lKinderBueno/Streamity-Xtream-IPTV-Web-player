@@ -61,7 +61,8 @@ const Seasons = ({seasonData, cover}) => {
                     return {
                         ...y,
                         episode_num: parseInt(y.episode_num),
-                        url: y.url || generateUrl("series", y.id, y.container_extension)
+                        url: y.url || generateUrl("series", y.id, y.container_extension),
+                        url2: generateUrl("series", y.id, y.container_extension)
                     }
                 })
             }
@@ -126,7 +127,7 @@ const Seasons = ({seasonData, cover}) => {
                     selected={ep.episode_num===streamStat.episode}
                     percentage={ep.episode_num===streamStat.episode ? streamStat.tot : false}
                     playEpisode={playEpisode}
-                    url={ep.url}
+                    url={ep.url2}
                     />    
                 )
             )}

@@ -1,11 +1,11 @@
 import {getInfo} from "./user_info"
-import {getDns} from "./axios"
+import {getDns, getIsIptveditor} from "./axios"
 
 export function generateUrl (type, id, extension){
-    const dns = getDns();
+    const dns = getIsIptveditor()===true ? "http://api.iptveditor.com/" : getDns();
     const user = getInfo().username;
     const pass = getInfo().password;
-    return `${dns}${type}/${user}/${pass}/${id}.${extension}`
+    return `${dns}${type}/${user}/${pass}/${id}.${ getIsIptveditor()===true ? "mp4" : extension}`
 }
 
 export function catchupUrlGenerator (url,time, duration){

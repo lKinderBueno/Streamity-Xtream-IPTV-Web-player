@@ -87,14 +87,14 @@ const Player = () => {
       return;
 
     let ip = playingChannel.url || generateUrl("live", playingChannel.stream_id, "m3u8");
-    let splitted = ip.split("/");
-    if (splitted.includes("/live/"))
-      ip = ip.replace(".ts", ".m3u8");
-    else if (splitted.lenght >= 5) {
-      if (!ip.includes("/live/")) {
+    if (playingChannel.url) {
+      let splitted = ip.split("/");
+      if (splitted.includes("/live/"))
+        ip = ip.replace(".ts", ".m3u8");
+      else if (splitted.length >= 5) {
         ip = splitted.slice(0, splitted.length - 3).join("/") + "/live/" + splitted.slice(splitted.length - 3, splitted.length).join("/") + ".m3u8"
-      }
-    } else ip = ip.replace("ts", "m3u8");
+      } else ip = ip.replace("ts", "m3u8");
+    }
 
     if (playingChannel.timeshift)
       ip = catchupUrlGenerator(ip, playingChannel.timeshift, playingChannel.duration);
