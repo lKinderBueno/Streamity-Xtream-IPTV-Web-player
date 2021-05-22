@@ -8,14 +8,30 @@ export function generateUrl (type, id, extension){
     return `${dns}${type}/${user}/${pass}/${id}.${ getIsIptveditor()===true ? "mp4" : extension}`
 }
 
-export function catchupUrlGenerator (url,time, duration){
+export function convertTsToM3u8(ip) {
+    let url = ip;
+    url = url.replace("/live/","/").replace(/\.ts|\.m3u8/g,"")
+    const splitted = url.split("/");
+
+    const id = splitted[splitted.length-1];
+    if(isNaN(id))
+        return ip;
+    const user = splitted[splitted.length-3];
+    const pass = splitted[splitted.length-2];
+    const domain = splitted.slice(0,splitted.length-3).join("/");
+
+    return domain + "/live/" + user + "/" + pass + "/" + id + ".m3u8";
+}
+
+export function catchupUrlGenerator (ip,time, duration){
+    let url = ip;
     time = timeConverter(time)
     url = url.replace.replace("/live/","/").replace(/\.ts|\.m3u8/g,"")
     const splitted = url.split("/");
 
     const id = splitted[splitted.length-1];
     if(isNaN(id))
-        return;
+        return ip;
     const user = splitted[splitted.length-3];
     const pass = splitted[splitted.length-2];
     const domain = splitted.slice(0,splitted.length-3).join("/");

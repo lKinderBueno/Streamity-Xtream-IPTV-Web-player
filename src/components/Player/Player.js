@@ -5,7 +5,7 @@ import Fullscreen from "../Live/Fullscreen"
 import Button from "./Buttons/Button"
 import VolumeButton from "./Buttons/VolumeButton"
 import PiPButton from "./Buttons/PiPButton"
-import {generateUrl, catchupUrlGenerator} from "../../other/generate-url"
+import {generateUrl, catchupUrlGenerator, convertTsToM3u8} from "../../other/generate-url"
 
 import "./Player.css"
 
@@ -86,15 +86,7 @@ const Player = () => {
     if (!playingChannel)
       return;
 
-    let ip = playingChannel.url || generateUrl("live", playingChannel.stream_id, "m3u8");
-    if (playingChannel.url) {
-      let splitted = ip.split("/");
-      if (splitted.includes("/live/"))
-        ip = ip.replace(".ts", ".m3u8");
-      else if (splitted.length >= 5) {
-        ip = splitted.slice(0, splitted.length - 3).join("/") + "/live/" + splitted.slice(splitted.length - 3, splitted.length).join("/") + ".m3u8"
-      } else ip = ip.replace("ts", "m3u8");
-    }
+    let ip = playingChannel.url ? convertTsToM3u8(playingChannel.url) : generateUrl("live", playingChannel.stream_id, "m3u8")
 
     if (playingChannel.timeshift)
       ip = catchupUrlGenerator(ip, playingChannel.timeshift, playingChannel.duration);

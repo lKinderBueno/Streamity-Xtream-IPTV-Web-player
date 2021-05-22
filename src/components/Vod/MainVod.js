@@ -218,6 +218,7 @@ const MainVod = () => {
                 stream_id={playlist[index].stream_id || playlist[index].series_id} 
                 stream_url={playlist[index].url} 
                 isSeries={playingMode==="series"} 
+                container_extension={playlist[index].container_extension}
                 category_id={playlist[index].category_id}  
                 last={false} style={{...style,paddingBottom:".7rem", marginLeft:"1%", textDecoration: "none"}}/>
           )

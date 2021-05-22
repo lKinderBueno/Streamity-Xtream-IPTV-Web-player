@@ -4,6 +4,7 @@ import {optimizeName} from "../../other/vod-series-name-optimizer"
 import PopupHover from "./PopupHover"
 import {Link} from "react-router-dom";
 import DB from "../../other/local-db"
+import {generateUrl} from "../../other/generate-url"
 
 const Li = styled(Link)`
 height: calc(15vw * 1.5);
@@ -91,7 +92,7 @@ const noCoverStyle = {
     justifyContent: "center"
 }
 
-const RowItem = ({name, stream_icon, last, stream_id, stream_url, category_id, id, style, isSeries}) => {
+const RowItem = ({name, stream_icon, last, stream_id, category_id, id, style, isSeries, container_extension}) => {
     const [noCover,setNoCover] = useState(!stream_icon);
     const [streamStat, setStreamStat] = useState()
     const [popup, setPopup] = useState(false);
@@ -153,7 +154,7 @@ const RowItem = ({name, stream_icon, last, stream_id, stream_url, category_id, i
                     <div style={{width:streamStat.tot+"%"}}/>
                 </Bar>
             )}
-            {popup && !last && (<PopupHover name={name} stream_icon={stream_icon} stream_id={stream_id} stream_url={stream_url} category_id={category_id} style={popupStyle} isSeries={isSeries}/>)}
+            {popup && !last && (<PopupHover name={name} stream_icon={stream_icon} stream_id={stream_id} stream_url={generateUrl("movie", stream_id, container_extension)} category_id={category_id} style={popupStyle} isSeries={isSeries}/>)}
         </Li>
     )
 }
