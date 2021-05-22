@@ -26,7 +26,7 @@ Streamity is an online webplayer. Watch IPTV Channels, movies TV series online o
 - React js
 
 ### Other Pictures
-![](https://github.com/lKinderBueno/Streamity-Xtream-IPTV-Web-player/raw/master/github-pic/channel.png?1)
+![](https://github.com/lKinderBueno/Streamity-Xtream-IPTV-Web-player/raw/master/github-pic/channels.png?1)
 ![](https://github.com/lKinderBueno/Streamity-Xtream-IPTV-Web-player/raw/master/github-pic/vod.png)
 
 
