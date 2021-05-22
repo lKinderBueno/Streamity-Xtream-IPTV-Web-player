@@ -1,4 +1,4 @@
-# Streamity.tv v2 Xtream version (by IPTVEditor.com dev)
+# Streamity.tv v2 Xtream IPTV Player (by IPTVEditor.com)
 
 ![](https://github.com/lKinderBueno/Streamity-Xtream-IPTV-Web-player/raw/master/github-pic/top.png)
 
