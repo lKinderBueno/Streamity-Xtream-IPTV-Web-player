@@ -10,9 +10,6 @@
 
 Streamity is an online webplayer. Watch IPTV Channels, movies TV series online on your browser with no additional software required!
 
-### (URL version: [Click here](https://github.com/lKinderBueno/Streamity-URL-IPTV-Web-player))
-
-
 ### Features
 - Xtream Api support
 - Customizable name and logo
