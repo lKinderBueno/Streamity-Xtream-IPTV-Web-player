@@ -17,7 +17,7 @@ Streamity is an online webplayer. Watch IPTV Channels, movies TV series online o
 - Customizable name and logo
 - Modern design and smooth animations
 - EPG Viewer
-- 12h/24h support
+- 12h/24h EPG time format support
 - Pic in picture player
 - Automatic fix and improve movie and series name
 - Favorites
