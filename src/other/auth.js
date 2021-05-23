@@ -55,15 +55,15 @@ export function useProvideAuth() {
       }
     }).catch(err => {
       console.log(err);
-      if(err.response.data && err.response.data.user_info && err.response.data.user_info.auth === 0)
-        failFallback("No account found","No account found with inserted credentials");
+      if(err && err.response && err.response.data && err.response.data.user_info && err.response.data.user_info.auth === 0)
+        failFallback && (failFallback("No account found","No account found with inserted credentials"));
       else failFallback && (failFallback("Server error","Server didn't generated any reply. Please try later #1"));
     })
   };
 
   const authLogin = (fallback) =>{
 
-    const dns = Cookies.get("dns");
+    const dns = window.dns.length === 0 && (Cookies.get("dns")) ;
     const username = Cookies.get("username");
     const password = Cookies.get("password");
 

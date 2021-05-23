@@ -59,7 +59,7 @@ export function setDns(data) {
     
     isIptveditor = !!data.match(/iptveditor\.com|localhost|192\.168\.178\.71\:3000/)
 
-    if(isIptveditor && window.isDebug !== 1)
+    if(isIptveditor === true && window.isDebug !== 1)
         data = "https://api.iptveditor.com/webplayer";
     else{
         if(data[data.length-1]!=="/")

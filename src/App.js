@@ -38,7 +38,7 @@ function App() {
     <ProvideAuth>
       <Router>
         <Switch>
-          <Route  path="/">
+          <Route>
             <Route path="/:playingMode/">
               <NavBar />
               <LateralBar/>
