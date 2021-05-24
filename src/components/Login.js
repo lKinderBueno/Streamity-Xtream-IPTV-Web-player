@@ -106,7 +106,7 @@ const Login = ({url}) => {
         e.preventDefault();
         setBlur({filter:"blur(.3rem)"})
         auth.signin(dns ,username,password, 
-            () => history.replace("/")
+            () => window.location="/"//history.replace("/")
             ,
             (title,description) => {
                 setShowPopup({title:title,description:description});

@@ -6,6 +6,7 @@ import Button from "./Buttons/Button"
 import VolumeButton from "./Buttons/VolumeButton"
 import PiPButton from "./Buttons/PiPButton"
 import {generateUrl, catchupUrlGenerator, convertTsToM3u8} from "../../other/generate-url"
+import {Loading} from '../../other/Player-github/style';
 
 import "./Player.css"
 
@@ -34,11 +35,30 @@ color: white;
 transition:  bottom .5s ease;
 `
 
+const Spin = styled.div`
+height: 100%;
+overflow: auto;
+overflow-y: auto;
+max-width: 100%;
+width: 100%;
+overflow-x: hidden;
+background-color: transparent;
+position: absolute;
+z-index: 100000000000000000;
+top: 0;
+left: 0;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+`
+
 let timeout = null;
 const Player = () => {
   const ref = useRef();
 
-  const playingChannel = useSelector(state => state.playingCh || {});
+  const playingChannel = useSelector(state => state.playingCh || {disabled:true});
   const [play, setPlay] = useState(!!playingChannel);
   const [volume, setVolume] = useState(50);
   const [pip, setPip] = useState(false);
@@ -48,6 +68,8 @@ const Player = () => {
   const [showCursor, setShowCursor] = useState({cursor: ""})
 
   const [url, setUrl] = useState();
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     if (ref.current) {
@@ -83,8 +105,12 @@ const Player = () => {
   }, [play])
   
   useEffect(() => {
-    if (!playingChannel)
+    if (!playingChannel || playingChannel.disabled){
+      setIsLoading(false)
       return;
+    }
+
+    setError(false)
 
     let ip = playingChannel.url ? convertTsToM3u8(playingChannel.url) : generateUrl("live", playingChannel.stream_id, "m3u8")
 
@@ -129,7 +155,24 @@ const Player = () => {
          url={url}
          pip={pip}
          controls={false}
+         onError={()=> setError(true)}
+         onBufferEnd={()=>setIsLoading(false)}
+         onBuffer={()=>setIsLoading(true)}
         />
+        { isLoading === true && (<Spin>
+            <Loading color={"var(--second-color);"}>
+                <div>
+                  <div />
+                  <div />
+                  <div />
+                </div>
+            </Loading>
+        </Spin>)}
+        {error === true ? (<Spin>
+          <label style={{color:"white"}}>An error occurred. Can't play stream.</label>
+        </Spin>)
+        :
+        <>
         <Fullscreen externalShow={fullscreen && hoverStyle.bottom !== "-3rem"} cTitle={playingChannel.title} cDesc={playingChannel.desc} cDuration={playingChannel.duration}/>
         <ContainerButtons dir="ltr" style={hoverStyle}>
         	<Button enabled={play} onClick={() => setPlay(!play)} iconOn={"fas fa-play"} iconOff={"fas fa-pause"} textOn={"Play"} textOff={"Pause"}/>
@@ -137,6 +180,8 @@ const Player = () => {
           <PiPButton enabled={pip} onClick={() => setPip(!pip)}/>
           <Button enabled={fullscreen} onClick={() => setFullscreen(!fullscreen)} iconOn={"fas fa-expand"} iconOff={"fas fa-compress"} textOn={"Fullscreen"} textOff={"Exit fullscreen"}/>
         </ContainerButtons>
+        </>
+      }
       </PlayerDiv>
       
     )

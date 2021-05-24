@@ -24,5 +24,5 @@ export function logout(){
     Cookies.remove("dns");
     Cookies.remove("username");
     Cookies.remove("password");
-    window.location.reload();
+    window.location = "/";
 }

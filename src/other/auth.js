@@ -43,9 +43,10 @@ export function useProvideAuth() {
             failFallback("Account expired",`Account expired on ${new Date(parseInt(result.user_info.exp_date+"000")).toGMTString()}`);
           else {
             setAuth(1);
-            successFallback && (successFallback());
             setInfo(result.user_info);
             initDb();
+            successFallback && (successFallback());
+
           }
         }
       }else if(result.title){
