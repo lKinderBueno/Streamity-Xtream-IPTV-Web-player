@@ -26,7 +26,7 @@ export function convertTsToM3u8(ip) {
 export function catchupUrlGenerator (ip,time, duration){
     let url = ip;
     time = timeConverter(time)
-    url = url.replace.replace("/live/","/").replace(/\.ts|\.m3u8/g,"")
+    url = url.replace("/live/","/").replace(/\.ts|\.m3u8/g,"")
     const splitted = url.split("/");
 
     const id = splitted[splitted.length-1];

@@ -120,10 +120,10 @@ const FullscreenMag = ({externalShow, cTitle, cDesc, cDuration}) => {
     } : false);
 
     
-    const title = epgNow ? epgNow.title : ""
-    const description = epgNow ? epgNow.description : ""
-    const start = epgNow ? dateFormat(new Date(epgNow.start), h24Format) : ""
-    const stop = epgNow ? dateFormat(new Date(epgNow.end), h24Format) : ""
+    const title = epgNow && epgNow.start ? epgNow.title : ""
+    const description = epgNow && epgNow.start ? epgNow.description : ""
+    const start = epgNow && epgNow.start ? dateFormat(new Date(epgNow.start), h24Format) : ""
+    const stop = epgNow && epgNow.start ? dateFormat(new Date(epgNow.end), h24Format) : ""
 
     /*const remoteController = (event) => {
         if(event.keyCode === 27 || event.keyCode === 8){

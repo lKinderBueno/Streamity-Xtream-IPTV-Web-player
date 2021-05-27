@@ -1,7 +1,7 @@
 import React, {useRef,useState,useEffect} from "react"
 import ReactPlayer from 'react-player'
 import {useSelector} from "react-redux"
-import Fullscreen from "../Live/Fullscreen"
+import Fullscreen from "../Live/Fullscreen.js"
 import Button from "./Buttons/Button"
 import VolumeButton from "./Buttons/VolumeButton"
 import PiPButton from "./Buttons/PiPButton"
@@ -44,7 +44,7 @@ width: 100%;
 overflow-x: hidden;
 background-color: transparent;
 position: absolute;
-z-index: 100000000000000000;
+z-index: 5;
 top: 0;
 left: 0;
 
