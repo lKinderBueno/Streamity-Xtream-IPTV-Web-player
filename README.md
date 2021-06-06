@@ -31,7 +31,7 @@ Streamity is an online webplayer. Watch IPTV Channels, movies TV series online o
 
 
 ### Installation
-1. Download latest release: [Click here](https://github.com/lKinderBueno/Streamity-Xtream-IPTV-Web-player/releases)
+1. Download latest release (streamity-v2.X.zip): [Click here](https://github.com/lKinderBueno/Streamity-Xtream-IPTV-Web-player/releases)
 2. Open with a text editor (for example notepad++) config.js and complete empty fields ( window.dns). More instructions are available inside the file.
 3. Open with a text editor (for example notepad++) config.php and write your mysql database info (database url, database name, username, password) and epg xml url. (if you don't use epg you can skip part 2 and 3)
 4. Import "sql_table.sql" in your mysql database (if you are using phpMyAdmin click on "import" -> select the sql_table.sql and click on execute)
