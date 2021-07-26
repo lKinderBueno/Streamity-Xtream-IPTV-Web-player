@@ -38,7 +38,7 @@ const LateralBar = () => {
 
         			<button className="netflix-nav-btn netflix-close-btn" onClick={()=>history.goBack()}><i className="fas fa-times"></i></button>
 
-        			<img className="netflix-logo" src="https://iptveditor.com/img/banner_b.png" alt="Player Logo" />
+        			<img className="netflix-logo" src="/img/banner_b.png" alt="Player Logo" />
 
         			<ul className="netflix-list">
                     <li>
