@@ -41,4 +41,10 @@ Streamity is an online webplayer. Watch IPTV Channels, movies TV series online o
 
 7. Copy and paste all the files in your server. Use the root folder, like http://domain.com/ (don't use folders like http://domain.com/player/ !)
 
+### Installation in sub-folder (ex: http://domain.com/player/ )
+Copy the "static" folder in your root folder and all the other files in /player/
+
+
+
+
 To avoid wasting server resources, epg update will be triggered when an user login and database has less than 12 hours of programmes.
