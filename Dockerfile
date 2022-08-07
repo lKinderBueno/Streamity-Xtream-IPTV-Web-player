@@ -24,7 +24,7 @@ RUN npm run build
 FROM php:7.4-apache
 
 # copy artifact build from the 'build environment'
-COPY --from=build /app/dist /var/www/html/
+COPY --from=build /app/build /var/www/html/
 
 WORKDIR /var/www/html/
 
