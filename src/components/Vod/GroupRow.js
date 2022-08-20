@@ -45,7 +45,7 @@ const GroupRow = ({category_id, name, style, playlist, isSeries}) => {
                 {playlist.slice(0, maxItem).map((x,id)=>
                     (<RowItem id={id} key={"vod"+ (x.stream_id || x.series_id)} name={x.name} stream_icon={x.stream_icon || x.cover} stream_id={x.stream_id || x.series_id} stream_url={x.url} category_id={category_id} container_extension={x.container_extension} last={id+1===maxItem} isSeries={isSeries}/>)
                     )}
-                {playlist.length > maxItem && (<NextArrow category_id={category_id}/>)}
+                {playlist.length > maxItem && (<NextArrow category_id={category_id} isSeries={isSeries}/>)}
             </div>
         </Li>
         )
