@@ -10,7 +10,13 @@ function downloadEpg()
 
     if (!$epg_url)
     {
-        return "EPG Xml not configured";
+        $dns = $_POST["dns"];
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+
+        if(!$dns ||!$username || !$password)
+            return "EPG Xml not configured";
+        else $epg_url = "$dns/xmltv.php?username=$username&password=$password";
     }
 
     try
