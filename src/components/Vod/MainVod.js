@@ -120,42 +120,46 @@ const MainVod = () => {
     }, [searchText]);
 
     useEffect(() => {
-        const reset = resetMemory(playingMode);
-        if(reset === false && (location.pathname.match(/info|fullscreen|menu/) || (location.pathname.match(/category/) && category === undefined) || category === loadedCategory)) {
-            return;
-        }
-        
-        setLoadedCategory(category);
-        setAllItems(((isNaN(category) && category === undefined) || location.pathname.match(/info|fullscreen|menu/)))
-
-        showBlur(1);
-        setIsLoading(true);
-
-        setRefresh(0)
-        if (reset === true) {
-            loadGroup(playingMode).then(gps => {
-                if (!gps || gps.length === 0) {
-                    history.replace("/")
-                    return;
-                }
-                gps.unshift({category_id:"fav", favorite:1, category_name: "Only favorites"},{category_id:"toend", history: 1, category_name:"Continue to watch"})
-                dispatch(setGroupList(gps || []));
-            })               
-        }
-        loadPlaylist(playingMode, category).then(chs => {
-            if(category && isNaN(category)){
-                chs = chs.filter(s=> {
-                    const f = DB.findOne(playingMode, playingMode === "series" ? s.series_id : s.stream_id, category === "fav")
-                    return f && (category === "fav" ||  (f.tot > 3 &&  f.tot < 95) );
-                })
+        const f = async()=> {
+            let cat = categories
+            const reset = resetMemory(playingMode);
+            if(reset === false && (location.pathname.match(/info|fullscreen|menu/) || (location.pathname.match(/category/) && category === undefined) || category === loadedCategory)) {
+                return;
             }
-            dispatch(setPlaylist(chs || []));
-            showBlur(0);
-            setStreamList(chs||[]);
-            setPlaylistState(chs || []);
-            setRandomMovie({...searchRandomMovie((isNaN(category) && category === undefined) ? chs : chs.filter(x=> x.category_id === category))})
-            setRefresh(1)
-        })
+
+            setLoadedCategory(category);
+            setAllItems(((isNaN(category) && category === undefined) || location.pathname.match(/info|fullscreen|menu/)))
+
+            showBlur(1);
+            setIsLoading(true);
+
+            setRefresh(0)
+            if (reset === true) {
+                await loadGroup(playingMode).then(gps => {
+                    if (!gps || gps.length === 0) {
+                        history.replace("/")
+                        return;
+                    }
+                    gps.unshift({category_id:"fav", favorite:1, category_name: "Only favorites"},{category_id:"toend", history: 1, category_name:"Continue to watch"})
+                    dispatch(setGroupList(gps || []));
+                })               
+            }
+            loadPlaylist(playingMode, category || "ALL").then(chs => {
+                if(category && isNaN(category)){
+                    chs = chs.filter(s=> {
+                        const f = DB.findOne(playingMode, playingMode === "series" ? s.series_id : s.stream_id, category === "fav")
+                        return f && (category === "fav" ||  (f.tot > 3 &&  f.tot < 95) );
+                    })
+                }
+                dispatch(setPlaylist(chs || []));
+                showBlur(0);
+                setStreamList(chs||[]);
+                setPlaylistState(chs || []);
+                setRandomMovie({...searchRandomMovie((isNaN(category) && category === undefined) ? chs : chs.filter(x=> x.category_id === category))})
+                setRefresh(1)
+            })
+        }
+        f().catch(err=>console.log(err))
     }, [dispatch, category, playingMode, location.pathname])
 
     const showBlur = (mode) =>{
@@ -174,6 +178,7 @@ const MainVod = () => {
                 isSeries={playingMode==="series"} 
                 stream_icon={randomMovie.stream_icon || randomMovie.cover}
                 style={style}
+                existingTmdb={randomMovie.tmdb}
                 title= {category && (isNaN(category) ? "Continue to watch" : categories.find(x=> parseInt(x.category_id) === parseInt(category)).category_name)}
                 />
                 :
@@ -201,6 +206,7 @@ const MainVod = () => {
                     isSeries={playingMode==="series"} 
                     stream_icon={randomMovie.stream_icon || randomMovie.cover}
                     style={style}
+                    existingTmdb={randomMovie.tmdb}
                     title= {category && (isNaN(category) ? getOtherCategoryName(category) : categories.find(x=> parseInt(x.category_id) === parseInt(category)).category_name)}
                 />,
                 <div></div>]
@@ -216,10 +222,11 @@ const MainVod = () => {
                 name={playlist[index].name} 
                 stream_icon={playlist[index].stream_icon || playlist[index].cover} 
                 stream_id={playlist[index].stream_id || playlist[index].series_id} 
-                stream_url={playlist[index].url} 
+                stream_url={playlist[index].direct_source} 
                 isSeries={playingMode==="series"} 
                 container_extension={playlist[index].container_extension}
                 category_id={playlist[index].category_id}  
+                existingTmdb={playlist[index].tmdb}
                 last={false} style={{...style,paddingBottom:".7rem", marginLeft:"1%", textDecoration: "none"}}/>
           )
 

@@ -2,7 +2,7 @@ import {getInfo} from "./user_info"
 import {getDns, getIsIptveditor} from "./axios"
 
 export function generateUrl (type, id, extension){
-    const dns = getIsIptveditor()===true ? "http://api.iptveditor.com/" : getDns();
+    const dns = getIsIptveditor()===true ? process.env.REACT_APP_IPTVEDITOR_API : getDns();
     const user = getInfo().username;
     const pass = getInfo().password;
     return `${dns}${type}/${user}/${pass}/${id}.${ getIsIptveditor()===true ? "mp4" : extension}`

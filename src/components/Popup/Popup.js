@@ -131,7 +131,7 @@ cursor: pointer;
 `
 
 
-const Popup = ({type,title,description,icon, onclick, error=true}) => {
+const Popup = ({type,title,description,icon, onclick, error=true, unsecure}) => {
     const [style, setStyle] = useState({
         opacity: 0,
         transform: "scale(0.9)",
@@ -170,7 +170,11 @@ const Popup = ({type,title,description,icon, onclick, error=true}) => {
                 <Body>
                     <i className={icon + " ni-3x"}></i>
                     <h4>{title}</h4>
-                    <p>{description}</p>
+                    {unsecure === true ? 
+                    (<p dangerouslySetInnerHTML={{__html:description}}></p>)
+                    :
+                    (<p>{description}</p>)
+                    }
                 </Body>
                 <Footer>
                     {error === true ? 

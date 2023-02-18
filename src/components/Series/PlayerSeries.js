@@ -48,8 +48,8 @@ const PlayerSeries = () => {
     useEffect(()=>{
         if(streams && streams.length>0){
             const s = streams.find(x=>x.playing===true)
-            /*if(!s.url)
-                s.url = generateUrl("series", s.stream, s.container_extension)*/
+            /*if(!s.direct_source)
+                s.direct_source = generateUrl("series", s.stream, s.container_extension)*/
 
             let stat = DB.findOne("series",stream_id);
             (!stat || (stat && (parseInt(stat.season) !== parseInt(season) || parseInt(stat.episode) !== parseInt(episode)))) && (stat={id: stream_id, season: season, episode: s.id, start:0, tot:0}) 
@@ -68,7 +68,7 @@ const PlayerSeries = () => {
     return (
         <Container>
             <ReactNetflixPlayer
-            src={stream && stream.url}
+            src={stream && stream.direct_source}
             title={stream && (optimizeName(tvseries))}
             titleMedia={stream && (optimizeName(tvseries))}
             extraInfoMedia = {stream && (optimizeName(stream.title))}

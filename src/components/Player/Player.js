@@ -112,7 +112,7 @@ const Player = () => {
 
     setError(false)
 
-    let ip = playingChannel.url ? convertTsToM3u8(playingChannel.url) : generateUrl("live", playingChannel.stream_id, "m3u8")
+    let ip = playingChannel.direct_source ? convertTsToM3u8(playingChannel.direct_source) : generateUrl("live", playingChannel.stream_id, "m3u8")
 
     if (playingChannel.timeshift)
       ip = catchupUrlGenerator(ip, playingChannel.timeshift, playingChannel.duration);

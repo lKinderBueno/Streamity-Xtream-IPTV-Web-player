@@ -173,7 +173,7 @@ const MoreInfo = ({style}) => {
                 history.replace(`/${playingMode}/`);
                 return;
             }
-            (playingMode === "series" ? getSeriesInfo(stream.series_id, stream.name, false) : getVodInfo(stream.stream_id,stream.name)).then(result =>{
+            (playingMode === "series" ? getSeriesInfo(stream.series_id, stream.name, false, stream.tmdb) : getVodInfo(stream.stream_id,stream.name, stream.tmdb)).then(result =>{
                 if(result && result.info){
                     let info = result.info;
                     info.name && (setName(info.name))

@@ -136,13 +136,13 @@ const Login = ({url}) => {
                 <label>Username</label>
                 <Input ref={window.dns ? inputRef : null} className="form-control" type="text" spellCheck={false} placeholder="Username" name="username" autoFocus onChange={(e)=> setUsername(e.target.value)} value={username} />
                 <label>Password</label>
-                <Input className="form-control" type="text" spellCheck={false} placeholder="****" name="password" onChange={(e)=> setPassword(e.target.value)} value={password}/>
+                <Input className="form-control" type="password" spellCheck={false} placeholder="****" name="password" onChange={(e)=> setPassword(e.target.value)} value={password}/>
                 <Button type="button" value="1" onClick={login} className="btn">Login</Button>
             </Box>
         </Container>
-        {showPopup && <Popup title={showPopup.title} description={showPopup.description} icon={"fas fa-user-times"}  onclick={closePopup}/>}
+        {showPopup && <Popup unsecure={true} title={showPopup.title} description={showPopup.description} icon={"fas fa-user-times"}  onclick={closePopup}/>}
         {m3u8 && (
-            <Popup error={false} title={"Information M3U8"} description={"IPTVEditor can play live channels streams only in M3U8 format. The conversion will be done automatically if streams are in Xtreamcodes format (this won't affect your playlist)."} icon={"fas fa-info-circle"} onclick={()=>  {Cookies.set("m3u8_play",1,{ expires: 365 }); setM3u8(!m3u8);}}/>
+            <Popup unsecure={true} error={false} title={"Informations"} description={"To login use your IPTVEditor's playlist username and password, not your email.<br/>IPTVEditor Web Player can play live channels streams only in M3U8 format.<br/>The conversion will be done automatically if streams are in Xtreamcodes format (this won't affect your playlist)."} icon={"fas fa-info-circle"} onclick={()=>  {Cookies.set("m3u8_play",1,{ expires: 365 }); setM3u8(!m3u8);}}/>
         )}
         {/*showKeyboard !== false && isMag && (<KeyboardOverlay onValueChange={onChange} onKeyboardClose={onKeyboardClose} itemValue={showKeyboard}/>)*/}
         </>

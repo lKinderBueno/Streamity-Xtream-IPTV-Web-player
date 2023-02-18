@@ -92,7 +92,7 @@ const noCoverStyle = {
     justifyContent: "center"
 }
 
-const RowItem = ({name, stream_icon, last, stream_id, category_id, id, style, isSeries, container_extension}) => {
+const RowItem = ({name, stream_icon, last, stream_id, category_id, id, style, isSeries, container_extension, existingTmdb}) => {
     const [noCover,setNoCover] = useState(!stream_icon);
     const [streamStat, setStreamStat] = useState()
     const [popup, setPopup] = useState(false);
@@ -154,7 +154,7 @@ const RowItem = ({name, stream_icon, last, stream_id, category_id, id, style, is
                     <div style={{width:streamStat.tot+"%"}}/>
                 </Bar>
             )}
-            {popup && !last && (<PopupHover name={name} stream_icon={stream_icon} stream_id={stream_id} stream_url={generateUrl("movie", stream_id, container_extension)} category_id={category_id} style={popupStyle} isSeries={isSeries}/>)}
+            {popup && !last && (<PopupHover name={name} stream_icon={stream_icon} stream_id={stream_id} stream_url={generateUrl("movie", stream_id, container_extension)} category_id={category_id} style={popupStyle} isSeries={isSeries} existingTmdb={existingTmdb}/>)}
         </Li>
     )
 }

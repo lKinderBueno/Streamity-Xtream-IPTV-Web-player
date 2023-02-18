@@ -18,6 +18,10 @@ function downloadEpg()
             return "EPG Xml not configured";
         else $epg_url = "$dns/xmltv.php?username=$username&password=$password";
     }
+    if (filter_var($epg_url, FILTER_VALIDATE_URL) === FALSE) {
+        die('Not a valid URL');
+    }
+    
 
     try
     {

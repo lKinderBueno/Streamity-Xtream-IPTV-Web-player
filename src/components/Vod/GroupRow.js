@@ -36,14 +36,14 @@ transition: text-decoration-color 0.5s ease;
 
 const maxItem = 7;
 
-const GroupRow = ({category_id, name, style, playlist, isSeries}) => {
+const GroupRow = ({category_id, name, style, playlist, isSeries, existingTmdb}) => {
     return (
         playlist.length > 0 && (
         <Li style={style} className="parent">
             <H3 to={`/${isSeries ? "series" : "movie"}/category/${category_id}/`}>{name}</H3>
             <div className="row" style={{marginTop:".5rem"}}>
                 {playlist.slice(0, maxItem).map((x,id)=>
-                    (<RowItem id={id} key={"vod"+ (x.stream_id || x.series_id)} name={x.name} stream_icon={x.stream_icon || x.cover} stream_id={x.stream_id || x.series_id} stream_url={x.url} category_id={category_id} container_extension={x.container_extension} last={id+1===maxItem} isSeries={isSeries}/>)
+                    (<RowItem id={id} key={"vod"+ (x.stream_id || x.series_id)} name={x.name} stream_icon={x.stream_icon || x.cover} stream_id={x.stream_id || x.series_id} stream_url={x.direct_source} category_id={category_id} container_extension={x.container_extension} last={id+1===maxItem} isSeries={isSeries} existingTmdb={x.tmdb}/>)
                     )}
                 {playlist.length > maxItem && (<NextArrow category_id={category_id}/>)}
             </div>

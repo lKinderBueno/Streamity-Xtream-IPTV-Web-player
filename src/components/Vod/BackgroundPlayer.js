@@ -104,7 +104,7 @@ background-image: linear-gradient(180deg,transparent,rgba(37,37,37,.61),var(--fi
 
 `
 
-const BackgroundPlayer = ({name, stream_icon, stream_id, category_id, isSeries, style, title}) => {
+const BackgroundPlayer = ({name, stream_icon, stream_id, category_id, isSeries, style, title, existingTmdb}) => {
     const [Name, setName] = useState(optimizeName(name))
     const [ImageSrc, setImageSrc] = useState(stream_icon)
     const [Description, setDescription] = useState("")
@@ -113,7 +113,7 @@ const BackgroundPlayer = ({name, stream_icon, stream_id, category_id, isSeries, 
 
     useEffect(() => {
         async function fetchData() {
-            (isSeries ? getSeriesInfo(stream_id,name, true) : getVodInfo(stream_id,name)).then(result =>{
+            (isSeries ? getSeriesInfo(stream_id,name, true, existingTmdb) : getVodInfo(stream_id,name, existingTmdb)).then(result =>{
                 if(result && result.info){
                     result = result.info;
                     result.name && (setName(result.name))
