@@ -1,6 +1,6 @@
 <?php
 include "config.php";
-if($cors == false) return;
+if($cors != true) return;
 
 //$_POST = json_decode(file_get_contents("php://input"),true);
 if (filter_var($_GET['url'], FILTER_VALIDATE_URL) === FALSE) {
