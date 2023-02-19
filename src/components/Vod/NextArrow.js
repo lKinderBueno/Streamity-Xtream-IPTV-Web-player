@@ -37,9 +37,9 @@ padding-top: calc(6.5vw * 1.5);
 `
 
 
-const NextArrow = ({category_id}) => {
+const NextArrow = ({category_id, isSeries}) => {
     return (
-        <Li className="vod" data-id="7" to={`/movie/category/${category_id}/`}>
+        <Li className="vod" data-id="7" to={`/${isSeries ? "series" : "movie"}/category/${category_id}/`}>
             <I className="fas fa-chevron-right"></I>
         </Li>
     )
