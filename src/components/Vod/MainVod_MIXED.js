@@ -161,7 +161,7 @@ const MainVod = () => {
                 return null
             else{
                 return randomMovie && randomMovie.name ? 
-                <BackgroundPlayer key={`bg-${randomMovie.stream_id || randomMovie.series_id}`} name={randomMovie.name} category_id={randomMovie.category_id} stream_id={randomMovie.stream_id || randomMovie.series_id} isSeries={playingMode==="series"} stream_icon={randomMovie.stream_icon || randomMovie.cover}/>
+                <BackgroundPlayer key={`bg-${randomMovie.stream_id || randomMovie.series_id}`} name={randomMovie.name} category_id={randomMovie.category_id} stream_id={randomMovie.stream_id || randomMovie.series_id} isSeries={playingMode==="series"} stream_icon={randomMovie.stream_icon || randomMovie.cover} existingTmdb={randomMovie.tmdb}/>
                 :
                 <div></div>
             }
@@ -173,8 +173,9 @@ const MainVod = () => {
                 <RowItem id={index} key={"vod"+playlist[index].stream_id} 
                 name={playlist[index].name} stream_icon={playlist[index].stream_icon} 
                 stream_id={playlist[index].stream_id} 
-                stream_url={playlist[index].url} 
+                stream_url={playlist[index].direct_source} 
                 category_id={playlist[index].category_id}  
+                existingTmdb={playlist[index].tmdb}
                 last={false} style={{...style,paddingBottom:".7rem"}}/>
           )
 

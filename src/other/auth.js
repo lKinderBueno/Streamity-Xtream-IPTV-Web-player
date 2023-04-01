@@ -35,15 +35,15 @@ export function useProvideAuth() {
       }
       if(result && result.user_info){
         if(result.iptveditor)
-          axios.setDns("https://api.iptveditor.com/webplayer");
+          axios.setDns(`${process.env.REACT_APP_IPTVEDITOR_API}webplayer`);
         if(result.user_info.auth === 0)
-          failFallback("No account found","No account found with inserted credentials");
+          failFallback("No account found","No account found with inserted credentials." + (window.location.host.includes("iptveditor.com") ? "<br/>To login use your IPTVEditor's playlist username and password, not your email." : ""));
         else if(result.user_info.auth){
           if(result.user_info.status !== "Active")
             failFallback("Account expired",`Account expired on ${new Date(parseInt(result.user_info.exp_date+"000")).toGMTString()}`);
           else {
             setAuth(1);
-            setInfo(result.user_info);
+            setInfo(result.user_info, result.server_info);
             initDb();
             successFallback && (successFallback());
 
@@ -57,7 +57,7 @@ export function useProvideAuth() {
     }).catch(err => {
       console.log(err);
       if(err && err.response && err.response.data && err.response.data.user_info && err.response.data.user_info.auth === 0)
-        failFallback && (failFallback("No account found","No account found with inserted credentials"));
+        failFallback && (failFallback("No account found","No account found with inserted credentials." + (window.location.host.includes("iptveditor.com") ? "<br/>To login use your IPTVEditor's playlist username and password, not your email." : "")));
       else failFallback && (failFallback("Server error","Server didn't generated any reply. Please try later #1"));
     })
   };

@@ -90,7 +90,7 @@ color:white;
 `
 
 
-const PopupHover = ({name,stream_icon, stream_id, stream_url, category_id, style, isSeries}) => {
+const PopupHover = ({name,stream_icon, stream_id, stream_url, category_id, style, isSeries, existingTmdb}) => {
 
     const [Name, setName] = useState(optimizeName(name))
     const [ImageSrc, setImageSrc] = useState(stream_icon)
@@ -101,7 +101,7 @@ const PopupHover = ({name,stream_icon, stream_id, stream_url, category_id, style
 
     useEffect(() => {
         async function fetchData() {
-            (isSeries ? getSeriesInfo(stream_id,name, true) : getVodInfo(stream_id,name)).then(result =>{
+            (isSeries ? getSeriesInfo(stream_id,name, true, existingTmdb) : getVodInfo(stream_id,name, existingTmdb)).then(result =>{
                 if(result && result.info){
                     result = result.info;
                     result.name && (setName(result.name))

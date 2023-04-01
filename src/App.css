@@ -112,3 +112,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+body > iframe{
+  display: none;
+}

@@ -29,8 +29,8 @@ const PlayerVod = () => {
             history.replace(`/movie/`);
             return;
         }
-        if(stream.url)
-            setUrl(stream.url)
+        if(stream.direct_source)
+            setUrl(stream.direct_source)
         else{
             setUrl(generateUrl("movie",stream.stream_id,stream.container_extension))
         }

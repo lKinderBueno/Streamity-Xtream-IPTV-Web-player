@@ -1,6 +1,8 @@
 import * as axios from "./axios";
 import {getInfo} from "./user_info"
 import {getVodTmdbData, getSeriesTmdbData, clearEpisodeName} from "./tmdb"
+import { downloadEpgDataFromCategories } from "./epg-database";
+import { groupBy } from './group-by';
 
 export async function loadGroup(mode){
     return await axios.post("player_api.php",{
@@ -14,15 +16,20 @@ export async function loadGroup(mode){
 }
 
 export async function loadPlaylist(mode,group){
-    return await axios.post("player_api.php",{
+    const result = await axios.post("player_api.php",{
         username: getInfo().username,
         password : getInfo().password,
         action: getAddress(mode, false),
         category_id : isNaN(group) ? "*" : group
     }).catch(err => [])
-    .then(result =>{
-        return result.data;
-    });
+    if(mode==="live" && !isNaN(group) && axios.getIsIptveditor()===true){
+        await downloadEpgDataFromCategories(result.data)
+    }
+    //else if(mode==="movie")
+    //    result.data = result.data.sort((a,b)=>b.added-a.added)
+    //else if(mode==="series")
+    //    result.data = result.data.sort((a,b)=>b.last_modified-a.last_modified)
+    return result.data;
 }
 
 export async function loadEpg(epg_id, limit = 1){
@@ -43,7 +50,29 @@ export async function loadEpg(epg_id, limit = 1){
     });
 }
 
-export async function getVodInfo(vod_id, name) {
+
+export async function loadEpgArray(epg_ids, limit = 2){
+    let now = new Date();
+    
+
+    return await axios.post("/epg.php",{
+        username: getInfo().username,
+        password : getInfo().password,
+        action: "get_simple_data_table_array",
+        epg_ids: JSON.stringify(epg_ids),
+        limit : limit,
+        start: parseInt(new Date(now.getFullYear(),now.getMonth(), now.getDate()+limit-1, 0,0,0,0).getTime()/1000),
+        stop: parseInt(new Date(now.getFullYear(),now.getMonth(), now.getDate()+limit-1, 23,59,59,9999).getTime()/1000),
+    }).catch(err => [])
+    .then(result =>{
+        if(!result.data)
+            return epg_ids
+        const d = groupBy(result.data, "id")
+        return d;
+    });
+}
+
+export async function getVodInfo(vod_id, name, existingTmdb) {
     let result = null;
     if (axios.getIsIptveditor()===false) {
         result = await axios.post("player_api.php", {
@@ -60,10 +89,10 @@ export async function getVodInfo(vod_id, name) {
     if(result && result.info && result.info.cover_big)
         return result;
 
-    return await getVodTmdbData(name)
+    return await getVodTmdbData(name, existingTmdb)
 }
 
-export async function getSeriesInfo(series_id, name, only_info) {
+export async function getSeriesInfo(series_id, name, only_info, existingTmdb) {
     let result = null;
     if (axios.getIsIptveditor()===false || only_info === false) {
         result = await axios.post("player_api.php", {
@@ -78,7 +107,7 @@ export async function getSeriesInfo(series_id, name, only_info) {
     }
     
     if(axios.getIsIptveditor()===true)
-        return await getSeriesTmdbData(name, result)
+        return await getSeriesTmdbData(name, result, existingTmdb)
     else if(only_info===false)
         clearEpisodeName(name, result)
     return result;

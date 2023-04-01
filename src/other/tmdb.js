@@ -1,7 +1,7 @@
 import {optimizeName, secondsToHms, createMovieInfo, createEpisode} from "./vod-series-name-optimizer"
 import * as axios from "./axios";
 
-export async function getVodTmdbData(name){
+export async function getVodTmdbData(name, existingTmdb){
     const language = navigator.language || navigator.userLanguage; 
     name = optimizeName(name);
 
@@ -9,12 +9,11 @@ export async function getVodTmdbData(name){
       return createMovieInfo(name)
     }
 
-    let tmdb = await axios.get(`https://api.themoviedb.org/3/search/movie${language ? `?language=${language.toLowerCase()}&`:"?"}api_key=${window.tmdb}&query=${encodeURI(name)}`
+    let tmdb = existingTmdb || await axios.get(`https://api.themoviedb.org/3/search/movie${language ? `?language=${language.toLowerCase()}&`:"?"}api_key=${window.tmdb}&query=${encodeURI(name)}`
     ,{ headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.55 Safari/537.36 Edg/86.0.622.28' }  } ).catch(err=> {return null});;
     
-    if(tmdb && tmdb.data && tmdb.data.results.length>0){
-       tmdb = tmdb.data;
-       let tmdbId = tmdb["results"][0]["id"];
+    if(existingTmdb || (tmdb && tmdb.data && tmdb.data.results.length>0)){
+       let tmdbId = existingTmdb || tmdb.data["results"][0]["id"];
        tmdb = await axios.get(`https://api.themoviedb.org/3/movie/${tmdbId}${language ? `?language=${language.toLowerCase()}&`:"?"}api_key=${window.tmdb}&append_to_response=images,credits,videos`,
        { headers: { 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.55 Safari/537.36 Edg/86.0.622.28' }  } ).catch(err=> {return null});;
     
@@ -80,14 +79,14 @@ export async function getVodTmdbData(name){
 }
 
 
-export async function getSeriesTmdbData(name, streams) {
+export async function getSeriesTmdbData(name, streams, existingTmdb) {
    const language = navigator.language || navigator.userLanguage;
    name = optimizeName(name);
 
    let info = {};
    let episodes = {};
 
-   let tmdb = await axios.get(`https://api.themoviedb.org/3/search/tv${language ? `?language=${language.toLowerCase()}&`:"?"}api_key=${window.tmdb}&query=${encodeURI(name)}`, {
+   let tmdb = existingTmdb || await axios.get(`https://api.themoviedb.org/3/search/tv${language ? `?language=${language.toLowerCase()}&`:"?"}api_key=${window.tmdb}&query=${encodeURI(name)}`, {
       headers: {
          'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.55 Safari/537.36 Edg/86.0.622.28'
       }
@@ -95,11 +94,10 @@ export async function getSeriesTmdbData(name, streams) {
       return null
    });;
 
-   if (tmdb && tmdb.data && tmdb.data.results.length > 0) {
-      tmdb = tmdb.data;
-      const tmdbId = tmdb["results"][0]["id"];
+   if (existingTmdb || (tmdb && tmdb.data && tmdb.data.results.length > 0)) {
+      const tmdbId = existingTmdb || tmdb.data["results"][0]["id"];
       let seasons = "";
-      streams && streams.length > 0  && (seasons =  Array.from(new Set(streams.map(x => x.Season))).map(x=> `",season/${x}`))
+      streams && streams.length > 0  && (seasons =  Array.from(new Set(streams.map(x => x.season))).map(x=> `",season/${x}`))
       tmdb = await axios.get(`https://api.themoviedb.org/3/tv/${tmdbId}${language ? `?language=${language.toLowerCase()}&`:"?"}api_key=${window.tmdb}&append_to_response=images,credits,videos${seasons}`, {
          headers: {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.55 Safari/537.36 Edg/86.0.622.28'
@@ -141,9 +139,9 @@ export async function getSeriesTmdbData(name, streams) {
 
 
          if (streams && streams.length > 0) {
-            Array.from(new Set(streams.map(x => x.Season))).forEach(season => {
-               const eps = streams.filter(ch => parseInt(ch.Season) === parseInt(season)).sort(function (a, b) {
-                  return a.Episode - b.Episode
+            Array.from(new Set(streams.map(x => x.season))).forEach(season => {
+               const eps = streams.filter(ch => parseInt(ch.season) === parseInt(season)).sort(function (a, b) {
+                  return a.episode - b.episode
                });
                episodes[season.toString()] = [];
 
@@ -155,7 +153,7 @@ export async function getSeriesTmdbData(name, streams) {
                      let ratingEp = "0";
                      let imageEp = "";
                      let overview = "";
-                     const epData = tmdb[`season/${season}`].episodes.find(x => parseInt(x.episode_number) === parseInt(ep.Episode));
+                     const epData = tmdb[`season/${season}`].episodes.find(x => parseInt(x.episode_number) === parseInt(ep.episode));
                      if (epData) {
                         titleEp = epData.name;
                         airdateEp = tmdb[`season/${season}`].air_date;
@@ -165,38 +163,38 @@ export async function getSeriesTmdbData(name, streams) {
                            ratingEp = (epData.vote_average / 2).toString();
                         imageEp = epData.still_path ? `https://image.tmdb.org/t/p/original${epData.still_path}` : "";
                         overview = epData.overview;
-                        episodes[season.toString()].push(createEpisode(ep.Url, ep.io, ep.Season, ep.Episode, duration_secEp, durationEp, titleEp, airdateEp, crewEp, ratingEp, imageEp, overview));
-                     } else episodes[season.toString()].push(createEpisode(ep.Url, ep.io, ep.Season, ep.Episode, duration_secEp, durationEp));
+                        episodes[season.toString()].push(createEpisode(ep.direct_source, ep.id, ep.season, ep.episode, duration_secEp, durationEp, titleEp, airdateEp, crewEp, ratingEp, imageEp, overview));
+                     } else episodes[season.toString()].push(createEpisode(ep.direct_source, ep.id, ep.season, ep.episode, duration_secEp, durationEp));
                   } else {
-                     episodes[season.toString()].push(createEpisode(ep.Url, ep.io, ep.Season, ep.Episode, duration_secEp, durationEp));
+                     episodes[season.toString()].push(createEpisode(ep.direct_source, ep.id, ep.season, ep.episode, duration_secEp, durationEp));
                   }
                });
             })
          }
       } else {
          if (streams && streams.length > 0) {
-            Array.from(new Set(streams.map(x => x.Season))).forEach(season => {
-               const eps = streams.filter(ch => parseInt(ch.Season) === parseInt(season)).sort(function (a, b) {
-                  return a.Episode - b.Episode
+            Array.from(new Set(streams.map(x => x.season))).forEach(season => {
+               const eps = streams.filter(ch => parseInt(ch.season) === parseInt(season)).sort(function (a, b) {
+                  return a.episode - b.episode
                });
                episodes[season.toString()] = [];
 
                eps.forEach(ep => {
-                  episodes[season.toString()].push(createEpisode(ep.Url, ep.io, ep.Season, ep.Episode));
+                  episodes[season.toString()].push(createEpisode(ep.direct_source, ep.id, ep.season, ep.episode));
                });
             })
          }
       }
    } else if (streams && streams.length > 0) {
-      Array.from(new Set(streams.map(x => x.Season))).forEach(season => {
-         const eps = streams.filter(ch => parseInt(ch.Season) === parseInt(season)).sort(function (a, b) {
-            return a.Episode - b.Episode
+      Array.from(new Set(streams.map(x => x.season))).forEach(season => {
+         const eps = streams.filter(ch => parseInt(ch.season) === parseInt(season)).sort(function (a, b) {
+            return a.episode - b.episode
          });
          episodes[season.toString()] = [];
 
 
          eps.forEach(ep => {
-            episodes[season.toString()].push(createEpisode(ep.Url, ep.Season, ep.Episode));
+            episodes[season.toString()].push(createEpisode(ep.direct_source, ep.season, ep.episode));
          });
       })
    }
@@ -213,7 +211,7 @@ export function clearEpisodeName(seriesName, data){
       data.episodes[season].forEach(ep=>{
          ep.title = ep.title.replace(seriesName,"").replace(/S\d{1,2}E\d{1,2}/,"").trim();
          if(!ep.title || ep.title === "-")
-            ep.title = "Episode " + ep.episode_num
+            ep.title = "episode " + ep.episode_num
       })
    })
 }

@@ -21,13 +21,13 @@ const PlayerMag = () => {
     stbVolume(0)
 
     const stream = useSelector(state => state.playlist).find(x=>x.stream_id === parseInt(stream_id));
-    stbPlayStream(stream.url)
+    stbPlayStream(stream.direct_source)
 
     
     return (
         <Container>
             <ReactNetflixPlayer
-            src={stream.url}
+            src={stream.direct_source}
             title={optimizeName(stream.name)}
             titleMedia={optimizeName(stream.name)}
             backButton={()=> history.goBack()}
