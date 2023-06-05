@@ -38,8 +38,8 @@ const PlayerSeries = () => {
         setStreams(streamsTemp.map(x => {
             return {
                 ...x,
-                playing: parseInt(x.episode_num) === parseInt(episode),
-                id: x.episode_num,
+                playing: parseInt(x.episode_num || x.episode) === parseInt(episode),
+                id: x.episode_num || x.episode,
                 name: x.title
             }
         }))
@@ -68,7 +68,7 @@ const PlayerSeries = () => {
     return (
         <Container>
             <ReactNetflixPlayer
-            src={stream && stream.direct_source}
+            src={stream && (stream.direct_source || stream.url || stream.url2)}
             title={stream && (optimizeName(tvseries))}
             titleMedia={stream && (optimizeName(tvseries))}
             extraInfoMedia = {stream && (optimizeName(stream.title))}

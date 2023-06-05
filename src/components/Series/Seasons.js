@@ -61,7 +61,7 @@ const Seasons = ({seasonData, cover}) => {
                     return {
                         ...y,
                         episode_num: parseInt(y.episode_num),
-                        url: y.direct_source || generateUrl("series", y.id, y.container_extension),
+                        url:  y.url || y.direct_source || generateUrl("series", y.id, y.container_extension),
                         url2: generateUrl("series", y.id, y.container_extension)
                     }
                 })
