@@ -102,6 +102,12 @@ export async function getSeriesInfo(series_id, name, only_info, existingTmdb) {
             series_id: series_id,
         }).catch(err => null)
         .then(result => {
+            if(result.data && Array.isArray(result.data)){
+                result.data.forEach(x=> {
+                    if(!x.episode_num && x.episode)
+                        x.episode_num = x.episode
+                })
+            }
             return result.data;
         });
     }

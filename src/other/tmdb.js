@@ -163,10 +163,10 @@ export async function getSeriesTmdbData(name, streams, existingTmdb) {
                            ratingEp = (epData.vote_average / 2).toString();
                         imageEp = epData.still_path ? `https://image.tmdb.org/t/p/original${epData.still_path}` : "";
                         overview = epData.overview;
-                        episodes[season.toString()].push(createEpisode(ep.direct_source, ep.id, ep.season, ep.episode, duration_secEp, durationEp, titleEp, airdateEp, crewEp, ratingEp, imageEp, overview));
-                     } else episodes[season.toString()].push(createEpisode(ep.direct_source, ep.id, ep.season, ep.episode, duration_secEp, durationEp));
+                        episodes[season.toString()].push(createEpisode(ep.direct_source || ep.url, ep.id, ep.season, ep.episode, duration_secEp, durationEp, titleEp, airdateEp, crewEp, ratingEp, imageEp, overview));
+                     } else episodes[season.toString()].push(createEpisode(ep.direct_source || ep.url, ep.id, ep.season, ep.episode, duration_secEp, durationEp));
                   } else {
-                     episodes[season.toString()].push(createEpisode(ep.direct_source, ep.id, ep.season, ep.episode, duration_secEp, durationEp));
+                     episodes[season.toString()].push(createEpisode(ep.direct_source || ep.url, ep.id, ep.season, ep.episode, duration_secEp, durationEp));
                   }
                });
             })
@@ -180,7 +180,7 @@ export async function getSeriesTmdbData(name, streams, existingTmdb) {
                episodes[season.toString()] = [];
 
                eps.forEach(ep => {
-                  episodes[season.toString()].push(createEpisode(ep.direct_source, ep.id, ep.season, ep.episode));
+                  episodes[season.toString()].push(createEpisode(ep.direct_source || ep.url, ep.id, ep.season, ep.episode));
                });
             })
          }
@@ -194,7 +194,7 @@ export async function getSeriesTmdbData(name, streams, existingTmdb) {
 
 
          eps.forEach(ep => {
-            episodes[season.toString()].push(createEpisode(ep.direct_source, ep.season, ep.episode));
+            episodes[season.toString()].push(createEpisode(ep.direct_source || ep.url, ep.id, ep.season, ep.episode));
          });
       })
    }
@@ -211,7 +211,7 @@ export function clearEpisodeName(seriesName, data){
       data.episodes[season].forEach(ep=>{
          ep.title = ep.title.replace(seriesName,"").replace(/S\d{1,2}E\d{1,2}/,"").trim();
          if(!ep.title || ep.title === "-")
-            ep.title = "episode " + ep.episode_num
+            ep.title = "Episode " + (ep.episode_num || ep.episode)
       })
    })
 }
