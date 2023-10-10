@@ -130,7 +130,7 @@ const AccountInfo = () => {
 	        	<div className="nav__content">
 	        		<ul tabIndex={0} className="nav__list" style={{padding: "0 20%"}}>
 						<Li tabIndex={-1} className="nav__list-item">Username: <button className="hover-target">{info.username}</button></Li>
-	        			<Li tabIndex={-1} className="nav__list-item">Password: <button className="hover-target">{info.password}</button></Li>
+	        			<Li tabIndex={-1} className="nav__list-item">Password: <button className="hover-target"></button>******</Li>
 	        			<Li tabIndex={-1} className="nav__list-item">Max connections: <button className="hover-target">{info.max_connections}</button></Li>
 	        			<Li tabIndex={-1} className="nav__list-item">Expire on: <button className="hover-target">{info.expiry.toGMTString()}</button></Li>
 	        			<Li tabIndex={-1} className="nav__list-item">{info.message}</Li>

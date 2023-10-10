@@ -136,7 +136,7 @@ const Login = ({url}) => {
                 <label>Username</label>
                 <Input ref={window.dns ? inputRef : null} className="form-control" type="text" spellCheck={false} placeholder="Username" name="username" autoFocus onChange={(e)=> setUsername(e.target.value)} value={username} />
                 <label>Password</label>
-                <Input className="form-control" type="password" spellCheck={false} placeholder="****" name="password" onChange={(e)=> setPassword(e.target.value)} value={password}/>
+                <Input type="password" className="form-control" type="password" spellCheck={false} placeholder="****" name="password" onChange={(e)=> setPassword(e.target.value)} value={password}/>
                 <Button type="button" value="1" onClick={login} className="btn">Login</Button>
             </Box>
         </Container>

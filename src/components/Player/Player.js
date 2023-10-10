@@ -55,6 +55,7 @@ align-items:center;
 `
 
 let timeout = null;
+let timeoutError = null;
 const Player = () => {
   const ref = useRef();
 
@@ -71,6 +72,14 @@ const Player = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
 
+  const setErrorWithTimeout = () => {
+    setError(true);
+    clearTimeout(timeoutError);
+    timeoutError = setTimeout(()=>{
+      setError(false);
+    },2000);
+  }
+  
   useEffect(() => {
     if (ref.current) {
       const elem = ref.current;
@@ -155,9 +164,9 @@ const Player = () => {
          url={url}
          pip={pip}
          controls={false}
-         onError={()=> setError(true)}
-         onBufferEnd={()=>setIsLoading(false)}
-         onBuffer={()=>setIsLoading(true)}
+         onError={()=>  setErrorWithTimeout()}
+         onBufferEnd={()=> setIsLoading(false)}
+         onBuffer={()=> setIsLoading(true)}
         />
         { isLoading === true && (<Spin>
             <Loading color={"var(--second-color);"}>
