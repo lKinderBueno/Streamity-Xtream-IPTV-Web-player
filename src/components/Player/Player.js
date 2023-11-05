@@ -155,9 +155,24 @@ const Player = () => {
          url={url}
          pip={pip}
          controls={false}
-         onError={()=> setError(true)}
-         onBufferEnd={()=>setIsLoading(false)}
-         onBuffer={()=>setIsLoading(true)}
+         onProgress={(state)=>{
+          setError(false)
+         }}
+         onPlay={()=>{
+          setError(false)
+        }}
+         onError={(error, data)=> {
+          setError(true)
+          setIsLoading(false)
+         }}
+         onBufferEnd={()=>{
+          setError(false)
+          setIsLoading(false)
+         }}
+         onBuffer={()=>{
+          setIsLoading(true);
+          setError(false)
+        }}
         />
         { isLoading === true && (<Spin>
             <Loading color={"var(--second-color);"}>

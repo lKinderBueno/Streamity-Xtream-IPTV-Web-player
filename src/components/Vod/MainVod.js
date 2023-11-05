@@ -134,7 +134,7 @@ const MainVod = () => {
             setIsLoading(true);
 
             setRefresh(0)
-            if (reset === true) {
+            if (reset === true || cat.length === 0) {
                 await loadGroup(playingMode).then(gps => {
                     if (!gps || gps.length === 0) {
                         history.replace("/")
@@ -142,9 +142,10 @@ const MainVod = () => {
                     }
                     gps.unshift({category_id:"fav", favorite:1, category_name: "Only favorites"},{category_id:"toend", history: 1, category_name:"Continue to watch"})
                     dispatch(setGroupList(gps || []));
+                    cat = gps
                 })               
             }
-            loadPlaylist(playingMode, category || "ALL").then(chs => {
+            await loadPlaylist(playingMode, category || "ALL").then(chs => {
                 if(category && isNaN(category)){
                     chs = chs.filter(s=> {
                         const f = DB.findOne(playingMode, playingMode === "series" ? s.series_id : s.stream_id, category === "fav")

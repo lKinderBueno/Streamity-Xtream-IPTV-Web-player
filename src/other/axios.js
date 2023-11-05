@@ -12,37 +12,43 @@ export async function get(url, timeout = 1) {
     return Axios.get(url).catch(err => err);
 }
 
-export async function post(url, params = {}, local) {
+export async function post(url, params = {}, local, useProxy) {
     if (!dns)
         return null;
 
+    let uri = url
+
     if (local === true && !window.location.origin.match(/iptveditor\.com|localhost/)) {
-        return Axios.post(url, qs.stringify(params)).catch(err => err)
+        return Axios.post(uri, qs.stringify(params)).catch(err => err)
     }
 
     if (isIptveditor === false) {
-        url += "?";
+        uri += "?";
         for (const key in params) {
-            url += key + "=" + encodeURIComponent(params[key]) + "&";
+            uri += key + "=" + encodeURIComponent(params[key]) + "&";
         }
     }
 
-    if (proxyRequired === true && isIptveditor === true)
-        url = "/proxy.php?url=" + encodeURIComponent(dns);
-    else if (proxyRequired === true && isIptveditor === false)
-        url = "/proxy.php?url=" + encodeURIComponent(dns + url);
+    if ((proxyRequired || useProxy) === true && isIptveditor === true)
+        uri = "/proxy.php?url=" + encodeURIComponent(dns);
+    else if ((proxyRequired || useProxy) === true && isIptveditor === false)
+        uri = "/proxy.php?url=" + encodeURIComponent(dns + uri);
     else if (isIptveditor === false)
-        url = dns + url;
-    else url = dns;
+        uri = dns + uri;
+    else uri = dns;
 
-    return isIptveditor === true ?
-        Axios.post(url, qs.stringify(params)) :
-        Axios.get(url, {
+    return isIptveditor === true && !(proxyRequired || useProxy)?
+        Axios.post(uri, qs.stringify(params)) :
+        Axios.get(uri, {
             headers: {
                 'User-Agent': 'Mozilla/6.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.55 Safari/537.36 Edge/86.0.622.28'
             },
             timeout: 25000
-        }).catch(err => err);
+        }).catch(err => {
+            if(proxyRequired === false && !useProxy && !err.response)
+                return post(url, params, local, true)
+            return err
+        });
 
 }
 
@@ -55,7 +61,7 @@ export function setDns(data) {
     else if (window.location.protocol === 'https:' && !data.includes("https"))
         data = data.replace("http", "https");
 
-    isIptveditor = !!data.match(/iptveditor\.com|xtream-ie|localhost|192\.168\.178\.71\:3100/)
+    isIptveditor = !!data.match(/iptveditor\.com|xtream-ie|opop\.pro|localhost|192\.168\.178\.71\:3100/)
 
     if (window.isDebug === 1)
         data = window.dns;

@@ -124,8 +124,10 @@ const Login = ({url}) => {
         <>
         <Container style={blur}>
             <Box onKeyDown={remoteController} onSubmit={login}>
-                <h2>Welcome to {window.playername}</h2>
-                <h5>Write your credentials to continue.</h5>
+                {false && (<h2>Welcome to {window.playername}</h2>)}
+                <h2 className=''><img src="/img/banner_w.png" alt="" className="d-inline-block" style={{maxWidth: "30vw", maxHeight:"18vh"}}/></h2>
+                
+                <h5>Write your credentials to continue</h5>
                 <br/>
                 {!window.dns && 
                 ([

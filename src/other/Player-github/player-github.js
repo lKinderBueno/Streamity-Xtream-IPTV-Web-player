@@ -55,7 +55,6 @@ export default function ReactNetflixPlayer({
   onErrorVideo = false,
   onNextClick = false,
   onClickItemListReproduction = false,
-  onCrossClick = () => {},
   startPosition = 0,
 
   playlistTitle = "Playlist",
@@ -551,7 +550,7 @@ export default function ReactNetflixPlayer({
               <h1>{title}</h1>
               <h2>{subTitle}</h2>
             </div>
-            <FiX onClick={onCrossClick} />
+            <FiX onClick={backButton} />
           </header>
         )}
 

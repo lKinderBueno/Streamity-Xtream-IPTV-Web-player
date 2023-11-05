@@ -93,31 +93,30 @@ export async function downloadEpgDataFromCategories(channels) {
     if (toDownload.length === 0)
         return;
     else {
-        await loadEpgArray(toDownload, limit).then(result => {
-            toDownload.forEach(id => {
-                let data = result[[id]]
-                if (data && data.length > 0) {
-                    data = convertEpgListing(data);
-                    const dataset = epgMap.has(id) ? epgMap.get(id) : { days: {}, data: [] }
-                    mergeDay(dataset, data, limit);
-                    epgMap.set(id, dataset)
-                } else {
-                    if (epgMap.has(id)) {
-                        if (!epgMap.get(id)){
+        const result = await loadEpgArray(toDownload, limit)
+        toDownload.forEach(id => {
+            let data = result[[id]]
+            if (data && data.length > 0) {
+                data = convertEpgListing(data);
+                const dataset = epgMap.has(id) ? epgMap.get(id) : { days: {}, data: [] }
+                mergeDay(dataset, data, limit);
+                epgMap.set(id, dataset)
+            } else {
+                if (epgMap.has(id)) {
+                    if (!epgMap.get(id)){
 
-                        }
-                        if (!epgMap.get(id).days)
-                            epgMap.get(id).days = {}
-                        epgMap.get(id).days[limit] = false;
-                    } else if (limit === 1)
-                        epgMap.set(id, false);
-                    else {
-                        let obj = { days: {}, data: [] };
-                        obj.days[limit] = false;
-                        epgMap.set(id, obj);
                     }
+                    if (!epgMap.get(id).days)
+                        epgMap.get(id).days = {}
+                    epgMap.get(id).days[limit] = false;
+                } else if (limit === 1)
+                    epgMap.set(id, false);
+                else {
+                    let obj = { days: {}, data: [] };
+                    obj.days[limit] = false;
+                    epgMap.set(id, obj);
                 }
-            })
+            }
         })
 
     }

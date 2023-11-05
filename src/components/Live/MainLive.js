@@ -46,29 +46,31 @@ const MainLive = () => {
     const [showPopup, setShowPopup] = useState(false);
 
     useEffect(()=>{
-        setBlurBackground(((isNaN(category) || category === undefined) || history.location.pathname.includes("menu")) ? {filter:"blur(.5rem)",  pointerEvents: "none"} : {});
-
-        if(category !== undefined){
-            loadPlaylist("live",category).then(chs => {
+        const fun = async() => {
+            setBlurBackground(((isNaN(category) || category === undefined) || history.location.pathname.includes("menu")) ? {filter:"blur(.5rem)",  pointerEvents: "none"} : {});
+            
+            if(category != undefined && category != 0){
+                let chs = await loadPlaylist("live",category)
                 chs = chs || [];
                 if(category==="fav")
                     chs = chs.filter(x=> DB.findOne("live",x.stream_id,true))
                 dispatch(setPlaylist(chs));
                 if(chs.length === 0)
                     setShowPopup(1)
-            })
-        }else if(resetMemory("live")){
-            loadGroup("live").then(gps => {
-                if(!gps || gps.length===0){
-                    history.replace("/")
-                    return;
-                }
-                gps.unshift({category_name : "Only favorites", category_id:"fav"})
-                setGroup(gps[1].category_id)
-                dispatch(setGroupList(gps));
-                history.replace("/live/category/"+gps[1].category_id+"/")           
-            })
-        }else history.replace("/live/category/");
+            }else if(resetMemory("live")){
+                await loadGroup("live").then(gps => {
+                    if(!gps || gps.length===0){
+                        history.replace("/")
+                        return;
+                    }
+                    gps.unshift({category_name : "Only favorites", category_id:"fav"})
+                    setGroup(gps[1].category_id)
+                    dispatch(setGroupList(gps));
+                    history.replace("/live/category/"+gps[1].category_id+"/")           
+                })
+            }else history.replace("/live/category/");
+        }
+        fun()
     },[dispatch,category])
 
     useEffect(() => {
