@@ -7,7 +7,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "dateformat": "^4.5.1",
     "js-cookie": "^2.2.1",
     "node-pre-gyp": "^0.17.0",
