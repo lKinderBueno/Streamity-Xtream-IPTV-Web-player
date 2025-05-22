@@ -10,16 +10,28 @@ import {Loading} from '../../other/Player-github/style';
 
 import "./Player.css"
 
-import styled from "styled-components"
+import styled, {css} from "styled-components"
 const PlayerDiv = styled.div`
-width: 100%;
-background: #0000003d;
-padding: 0.7rem;
-border-radius: 0.4rem;
-height: 40vh;
-position: relative;
-overflow: hidden;
-user-select:none;
+  width: 100%;
+  background: #0000003d;
+  padding: 0.7rem;
+  border-radius: 0.4rem;
+  height: 40vh;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+
+  ${props => props.inTheaterMode && css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 80vh; /* Less than 100vh to not be fully fullscreen */
+    z-index: 1000;
+    background: black;
+    padding: 0; /* Reset padding for theater mode */
+    border-radius: 0; /* Reset border-radius for theater mode */
+  `}
 `
 
 const ContainerButtons = styled.div`
@@ -57,12 +69,14 @@ align-items:center;
 let timeout = null;
 const Player = () => {
   const ref = useRef();
+  const wasInTheaterModeRef = useRef(false);
 
   const playingChannel = useSelector(state => state.playingCh || {disabled:true});
   const [play, setPlay] = useState(!!playingChannel);
   const [volume, setVolume] = useState(50);
   const [pip, setPip] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
+  const [inTheaterMode, setInTheaterMode] = useState(false);
 
   const [hoverStyle, setHoverStyle] = useState({bottom:"-3rem"});
   const [showCursor, setShowCursor] = useState({cursor: ""})
@@ -75,6 +89,11 @@ const Player = () => {
     if (ref.current) {
       const elem = ref.current;
       if (fullscreen) {
+        // Entering fullscreen
+        if (inTheaterMode) {
+          wasInTheaterModeRef.current = true;
+          setInTheaterMode(false); // Exit theater mode before entering fullscreen
+        }
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
         } else if (elem.webkitRequestFullscreen) { /* Safari */
@@ -83,9 +102,9 @@ const Player = () => {
           elem.msRequestFullscreen();
         }
         showOverlayTimer();
-      }
-      else {
-        setShowCursor({cursor: ""})
+      } else {
+        // Exiting fullscreen
+        setShowCursor({cursor: ""});
         if (document.exitFullscreen) {
           document.exitFullscreen().catch(() => { });
         } else if (document.webkitExitFullscreen) {
@@ -95,14 +114,30 @@ const Player = () => {
         } else if (document.msExitFullscreen) {
           document.msExitFullscreen();
         }
+
+        if (wasInTheaterModeRef.current) {
+          setInTheaterMode(true);
+          wasInTheaterModeRef.current = false;
+        }
       }
     }
-  }, [fullscreen])
+  }, [fullscreen, inTheaterMode]); // Added inTheaterMode to dependencies
 
   useEffect(() => {
     if(!play)
       showOverlay(true)
   }, [play])
+
+  useEffect(() => {
+    if (inTheaterMode) {
+      document.body.classList.add("theater-mode-active");
+    } else {
+      document.body.classList.remove("theater-mode-active");
+    }
+    return () => {
+      document.body.classList.remove("theater-mode-active");
+    };
+  }, [inTheaterMode]);
   
   useEffect(() => {
     if (!playingChannel || playingChannel.disabled){
@@ -140,8 +175,15 @@ const Player = () => {
  
 
     return (
-      <PlayerDiv ref={ref} 
-      onDoubleClick={() => setFullscreen(!fullscreen)} 
+      <PlayerDiv ref={ref}
+      inTheaterMode={inTheaterMode}
+      onDoubleClick={() => {
+        if (inTheaterMode && !fullscreen) { // If in theater mode and about to enter fullscreen
+          wasInTheaterModeRef.current = true;
+          setInTheaterMode(false);
+        }
+        setFullscreen(!fullscreen);
+      }}
       onMouseEnter={()=> showOverlay(true)} 
       onMouseLeave = {()=> showOverlay(false)} 
       onMouseMove={() => fullscreen && showOverlayTimer()} 
@@ -193,7 +235,34 @@ const Player = () => {
         	<Button enabled={play} onClick={() => setPlay(!play)} iconOn={"fas fa-play"} iconOff={"fas fa-pause"} textOn={"Play"} textOff={"Pause"}/>
           <VolumeButton enabled={volume===0} onClick={() => setVolume(0)} onChangeInput={(e) => setVolume(e.target.value)} volume={volume}/>
           <PiPButton enabled={pip} onClick={() => setPip(!pip)}/>
-          <Button enabled={fullscreen} onClick={() => setFullscreen(!fullscreen)} iconOn={"fas fa-expand"} iconOff={"fas fa-compress"} textOn={"Fullscreen"} textOff={"Exit fullscreen"}/>
+          <Button
+            enabled={inTheaterMode}
+            onClick={() => {
+              if (fullscreen) return; // Optionally disable if in fullscreen
+              setInTheaterMode(!inTheaterMode);
+            }}
+            iconOn={"far fa-window-minimize"} 
+            iconOff={"fas fa-desktop"}
+            textOn={"Exit Theater Mode"}
+            textOff={"Enter Theater Mode"}
+          />
+          <Button 
+            enabled={fullscreen} 
+            onClick={() => {
+              // Logic for entering fullscreen via button is handled by useEffect[fullscreen]
+              // when `fullscreen` state changes.
+              // If currently in theater mode and not yet in fullscreen, prepare to exit theater.
+              if (inTheaterMode && !fullscreen) {
+                wasInTheaterModeRef.current = true;
+                setInTheaterMode(false); 
+              }
+              setFullscreen(!fullscreen);
+            }} 
+            iconOn={"fas fa-expand"} 
+            iconOff={"fas fa-compress"} 
+            textOn={"Fullscreen"} 
+            textOff={"Exit fullscreen"}
+          />
         </ContainerButtons>
         </>
       }

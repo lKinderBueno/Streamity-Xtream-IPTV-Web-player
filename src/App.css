@@ -116,3 +116,14 @@ body {
 body > iframe{
   display: none;
 }
+
+body.theater-mode-active::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* Dimming overlay */
+  z-index: 999; /* Below player (which will be 1000), above everything else */
+}
