@@ -51,6 +51,7 @@ if (!in_array($url_scheme, ['http', 'https'])) {
 }
 
 // Prevent requests to private/internal IPs
+$url_host = $parsed_url['host'];
 $ip = gethostbyname($url_host);
 if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
     http_response_code(403);
