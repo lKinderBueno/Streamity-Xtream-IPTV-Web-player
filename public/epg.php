@@ -11,7 +11,7 @@ header('Access-Control-Allow-Origin: *');
 include "epg-api.php";
 
 
-if($_POST["init"]){
+if(isset($_POST["init"])){
     echo downloadEpg();
     return;
 }
