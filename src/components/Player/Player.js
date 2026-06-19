@@ -5,7 +5,6 @@ import Fullscreen from "../Live/Fullscreen.js"
 import Button from "./Buttons/Button"
 import VolumeButton from "./Buttons/VolumeButton"
 import PiPButton from "./Buttons/PiPButton"
-import VLCButton from "./Buttons/VLCButton"
 import {generateUrl, catchupUrlGenerator, convertTsToM3u8} from "../../other/generate-url"
 import {Loading} from '../../other/Player-github/style';
 
@@ -187,7 +186,6 @@ const Player = () => {
         <ContainerButtons dir="ltr" style={hoverStyle}>
         	<Button enabled={play} onClick={() => setPlay(!play)} iconOn={"fas fa-play"} iconOff={"fas fa-pause"} textOn={"Play"} textOff={"Pause"}/>
           <VolumeButton enabled={volume===0} onClick={() => setVolume(0)} onChangeInput={(e) => setVolume(e.target.value)} volume={volume}/>
-          <VLCButton url={url} title={playingChannel.title}/>
           <PiPButton enabled={pip} onClick={() => setPip(!pip)}/>
           <Button enabled={fullscreen} onClick={() => setFullscreen(!fullscreen)} iconOn={"fas fa-expand"} iconOff={"fas fa-compress"} textOn={"Fullscreen"} textOff={"Exit fullscreen"}/>
         </ContainerButtons>

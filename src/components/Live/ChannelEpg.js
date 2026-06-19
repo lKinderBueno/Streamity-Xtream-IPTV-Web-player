@@ -5,6 +5,7 @@ import ChannelEpgBar from "./ChannelEpgBar"
 import DB from "../../other/local-db"
 
 import {getSingleEpgNow, downloadEpgData} from "../../other/epg-database"
+import {generateUrl} from "../../other/generate-url"
 
 const dateFormat = require("dateformat");
 
@@ -43,20 +44,34 @@ color: #fff;
 margin-left:2px;
 `*/
 
-const Favorite = styled.div`
-width: 1rem;
+const Actions = styled.div`
 display: flex;
-align-content: center;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 align-self: center;
+gap: .5rem;
 z-index:10;
+`
 
-& > i {
-    margin-left:2px;
+const Favorite = styled.div`
+display: flex;
+cursor: pointer;
+`
+
+const DownloadLink = styled.a`
+display: flex;
+color: inherit;
+transition: color .2s ease;
+
+&:hover, &:focus {
+    color: var(--second-color);
 }
 `
 
 const ChannelEpg = ({chId, Name, Epg, Shift, isPlaying}) => {
     const h24Format = useSelector(state => state.h24);
+    const streamFormat = useSelector(state => state.streamFormat);
     const timer = useSelector(state => state.timer60);
     const [epgNow, setEpgNow] = useState(false);
     const [favorite, setFavorite] = useState(null)
@@ -113,9 +128,14 @@ const ChannelEpg = ({chId, Name, Epg, Shift, isPlaying}) => {
             {/*isPlaying ? (<div className="col-md-1 text-center order-4 p-0" style={{width:"1rem"}}>
                 <PlayingButton className="far fa-play-circle"></PlayingButton>
     </div>)*/}
-            <Favorite className={`col-md-1 text-center order-4 p-0 ${isPlaying ? "playing" : ""}`} onClick={setFavoriteGlob}>
-                <i className={favorite !== false ? "fas fa-star" : "far fa-star"}></i>
-            </Favorite>
+            <Actions className={`col-md-1 text-center order-4 p-0 ${isPlaying ? "playing" : ""}`}>
+                <DownloadLink href={generateUrl("live", chId, streamFormat || "ts")} target="_blank" rel="noreferrer" title={`Open stream (.${streamFormat || "ts"})`} onClick={(e)=> e.stopPropagation()}>
+                    <i className="fas fa-external-link-alt"></i>
+                </DownloadLink>
+                <Favorite onClick={setFavoriteGlob}>
+                    <i className={favorite !== false ? "fas fa-star" : "far fa-star"}></i>
+                </Favorite>
+            </Actions>
             <div className="col-12 order-5">
                 {epgNow !== false ?
                 (<ChannelEpgBar key={chId+ " " +epgNow.start} start={epgNow.start} stop={epgNow.end} isPlaying={isPlaying} />)

@@ -6,6 +6,7 @@ import {getDns} from "../other/axios"
 import  {useHistory}  from 'react-router-dom'
 import {useSelector, useDispatch} from "react-redux"
 import {setH24} from "../actions/h24"
+import {setStreamFormat} from "../actions/stream-format"
 
 const Container = styled.div`
 background-color: #212529;
@@ -109,6 +110,7 @@ const AccountInfo = () => {
 	const history = useHistory();
     const dispatch = useDispatch()
     const h24 = useSelector(state => state.h24)
+    const streamFormat = useSelector(state => state.streamFormat)
 
     useEffect(() => {
 		setTimeout(()=>{
@@ -144,7 +146,7 @@ const AccountInfo = () => {
         <Container className={style}>
             <Box className="nav">
 	        	<div className="nav__content">
-	        		<ul tabIndex={0} className="nav__list" style={{padding: "0 20%"}}>
+	        		<ul tabIndex={0} className="nav__list" style={{padding: "0 6%"}}>
 						<Li tabIndex={-1} className="nav__list-item">Username: <button className="hover-target">{info.username}</button></Li>
 	        			<Li tabIndex={-1} className="nav__list-item">Password: <button className="hover-target"></button>******</Li>
 	        			<Li tabIndex={-1} className="nav__list-item">Max connections: <button className="hover-target">{info.max_connections}</button></Li>
@@ -158,11 +160,19 @@ const AccountInfo = () => {
                               </label>
                             </div>
                         </Li>
+                        <Li tabIndex={-1} className="nav__list-item">
+                            <div style={{display: "flex", alignItems: "center"}}>
+                              <Checkbox type="checkbox" defaultChecked={streamFormat==="m3u8"} onChange={()=>dispatch(setStreamFormat(streamFormat==="m3u8" ? "ts" : "m3u8"))} id="streamFormat"/>
+                              <label for="streamFormat" style={{paddingLeft: "1.5rem", marginBottom: 0}}>
+                                Open live streams as HLS (.m3u8)
+                              </label>
+                            </div>
+                        </Li>
                         <Li tabIndex={-1} className="nav__list-item" onClick={() => downloadPlaylist("m3u8")}>
-                            <Button className="form-control"><i className="fas fa-download mr-2"></i>Download playlist (m3u8)</Button>
+                            <Button className="form-control"><i className="fas fa-download mr-2"></i>DOWNLOAD PLAYLIST (M3U8)</Button>
                         </Li>
                         <Li tabIndex={-1} className="nav__list-item" onClick={() => downloadPlaylist("ts")}>
-                            <Button className="form-control"><i className="fas fa-download mr-2"></i>Download playlist (ts)</Button>
+                            <Button className="form-control"><i className="fas fa-download mr-2"></i>DOWNLOAD PLAYLIST (TS)</Button>
                         </Li>
                         <div class="row">
                             <div class="col-8">

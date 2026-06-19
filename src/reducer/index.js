@@ -7,6 +7,7 @@ import timer60Reducer from "./timer60s";
 import timer5Reducer from "./timer5s";
 import epgPopupReducer from "./epgPopup";
 import h24Reducer from "./h24";
+import streamFormatReducer from "./stream-format";
 import {combineReducers} from "redux";
 
 const allReducer = combineReducers({
@@ -14,6 +15,7 @@ const allReducer = combineReducers({
     timer60 : timer60Reducer,
     timer5 : timer5Reducer,
     h24 : h24Reducer,
+    streamFormat : streamFormatReducer,
     epgPopup : epgPopupReducer,
     groupsList : groupsReducer,
     playlist : playlistReducer,
