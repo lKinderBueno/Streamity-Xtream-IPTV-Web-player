@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react'
 import "./MainMenu/MainMenu"
 import styled from "styled-components"
 import {getInfo, logout} from "../other/user_info"
+import {getDns} from "../other/axios"
 import  {useHistory}  from 'react-router-dom'
 import {useSelector, useDispatch} from "react-redux"
 import {setH24} from "../actions/h24"
@@ -124,6 +125,21 @@ const AccountInfo = () => {
         },600)
 	}
 
+    const downloadPlaylist = (output) =>{
+        const dns = getDns();
+        if(!dns)
+            return;
+        const url = `${dns}get.php?username=${encodeURIComponent(info.username)}&password=${encodeURIComponent(info.password)}&type=m3u_plus&output=${output}`;
+        const a = document.createElement("a");
+        a.href = url;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.download = `playlist.${output === "ts" ? "m3u" : "m3u8"}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
     return (
         <Container className={style}>
             <Box className="nav">
@@ -141,6 +157,12 @@ const AccountInfo = () => {
                                 Use 24H format
                               </label>
                             </div>
+                        </Li>
+                        <Li tabIndex={-1} className="nav__list-item" onClick={() => downloadPlaylist("m3u8")}>
+                            <Button className="form-control"><i className="fas fa-download mr-2"></i>Download playlist (m3u8)</Button>
+                        </Li>
+                        <Li tabIndex={-1} className="nav__list-item" onClick={() => downloadPlaylist("ts")}>
+                            <Button className="form-control"><i className="fas fa-download mr-2"></i>Download playlist (ts)</Button>
                         </Li>
                         <div class="row">
                             <div class="col-8">

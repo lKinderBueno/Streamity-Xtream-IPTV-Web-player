@@ -50,9 +50,10 @@ export async function post(url, params = {}, local) {
 export function setDns(data) {
     if (!data)
         return;
-    if (window.location.protocol !== 'https:' && data.includes("https"))
-        data = data.replace("https", "http");
-    else if (window.location.protocol === 'https:' && !data.includes("https"))
+    // An HTTPS page cannot request an HTTP resource (mixed content), so upgrade the
+    // server protocol to match. We do NOT downgrade https->http: an HTTP page is
+    // allowed to call an HTTPS server, so the configured https:// is kept as-is.
+    if (window.location.protocol === 'https:' && !data.includes("https"))
         data = data.replace("http", "https");
 
     isIptveditor = !!data.match(/iptveditor\.com|xtream-ie|localhost|192\.168\.178\.71\:3100/)
